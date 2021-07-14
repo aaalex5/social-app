@@ -1,16 +1,61 @@
-import React from "react";
+import React, {useState} from "react";
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+    Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+    ImageBackground,
+} from 'react-native';
 
-function LoginScreen(props) {
+
+const LoginScreen = ( {navigation} ) => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [validLogin] = useState(0);
+    const handlePress = () => {
+        navigation.navigate('SignUp');
+    }
+
+    const handleSubmit = () => {
+        console.log({username});
+        console.log({password});
+    }
+    const handleButton = () => {
+        if (username.length > 0 && password.length > 0) {
+            validLogin = 1;
+        }
+    }
     return (
         <View>
-            <TextInput placeholder="Enter your username"/>
-            <TextInput placeholder="Enter your password"/>
-            <Button title="Don't have an account? Sign up here" onPress={() => console.log("PRESSED")}/>
+            <TextInput
+                autoCorrect={false}
+                autoCapitalize='none'
+                placeholder="Enter your username" 
+                onChangeText={username=>setUsername(username)}
+            />
+            <TextInput
+                autoCorrect={false}
+                autoCapitalize='none'
+                placeholder="Enter your password" 
+                onChangeText={password=>setPassword(password)}
+            />
+            <Pressable
+                onPress={handleSubmit}
+                disabled={validLogin}
+            >
+                <Text>Submit</Text>
+                
+            </Pressable>
+            <Pressable
+                onPress={handlePress}
+            >
+                <Text>"Don't have an account? Sign up here"</Text>
+            </Pressable>
         </View>
-        
     );
-}
+};
+
 
 export default LoginScreen;
