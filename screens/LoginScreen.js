@@ -14,6 +14,7 @@ const LoginScreen = ( {navigation} ) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [validLogin] = useState(0);
+
     const handlePress = () => {
         navigation.navigate('SignUp');
     }
@@ -22,28 +23,36 @@ const LoginScreen = ( {navigation} ) => {
         console.log({username});
         console.log({password});
     }
+    
     const handleButton = () => {
         if (username.length > 0 && password.length > 0) {
             validLogin = 1;
         }
     }
+
     return (
-        <View>
+        <View style ={styles.container}>
+            <Text style={styles.logo}>Gettogether</Text>
+
             <TextInput
+                style={styles.inputView}
                 autoCorrect={false}
                 autoCapitalize='none'
-                placeholder="Enter your username" 
+                placeholder="Username..."
+                placeholderTextColor = "#003f5c" 
                 onChangeText={username=>setUsername(username)}
             />
             <TextInput
+                style={styles.inputView}
                 autoCorrect={false}
                 autoCapitalize='none'
-                placeholder="Enter your password" 
+                placeholder="Password.." 
+                placeholderTextColor = "#003f5c"
                 onChangeText={password=>setPassword(password)}
             />
 
             <Pressable
-                style = {styles.submit}
+                style = {styles.SubmitBtn}
                 onPress={handleSubmit}
                 disabled={validLogin}
             >
@@ -54,26 +63,50 @@ const LoginScreen = ( {navigation} ) => {
             <Pressable
                 onPress={handlePress}
             >
-                <Text style={{color: 'blue'}}>Don't have an account? Sign up here</Text>
+                <Text style={{color: 'white'}}>Don't have an account? Sign up here</Text>
             </Pressable>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    submit: {
-        backgroundColor: '#fff',
-        width: 100,
-        height: 30,
-        fontWeight: 'bold',
-        justifyContent: 'center',
+    container: {
+        flex: 1,
+        backgroundColor: '#003f5c',
         alignItems: 'center',
-
-        
+        justifyContent: 'center',
         
     },
 
-    
+    SubmitBtn:{
+        width: 300,
+        backgroundColor:"#ddd",
+        borderRadius:25,
+        height:50,
+        alignItems:"center",
+        justifyContent:"center",
+        marginTop:30,
+        marginBottom:10
+      },
+
+    logo: {
+        fontWeight:"bold",
+        fontSize:50,
+        color:"#fb5b5a",
+        marginBottom:40
+      },
+
+    inputView:{
+        color: "white",
+        width: 300,
+        backgroundColor:"#465881",
+        borderRadius:25,
+        height:50,
+        marginBottom:30,
+        justifyContent:"center",
+        padding:15
+    },
+       
 })
 
 
