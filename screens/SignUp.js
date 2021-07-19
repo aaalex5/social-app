@@ -37,6 +37,7 @@ export default function SignUp() {
             <Formik
                 initialValues={{username: '', password: ''}}
                 validationSchema={SignUpSchema}
+                
                 onSubmit ={(values, actions) => {
                     console.log(values);
                     //Reset the form after submitting
