@@ -20,15 +20,15 @@ const LoginScreen = ( {navigation} ) => {
     }
 
     const handleSubmit = () => {
-        console.log({username});
-        console.log({password});
-    }
+        console.log(username);
+    };
     
     const handleButton = () => {
         if (username.length > 0 && password.length > 0) {
             validLogin = 1;
         }
     }
+    
 
     return (
         <View style ={styles.container}>
