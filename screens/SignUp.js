@@ -9,41 +9,44 @@ import {
     ImageBackground,
 } from 'react-native';
 import { Formik } from 'formik';
-import * as yup from 'yup';
+import { Auth } from 'aws-amplify';
+async function signUpAWS(username, password, email) {
+    try {
+        const { user } = await Auth.signUp({
+            username,
+            password,
+            attributes: {
+                email,
+            }
+        });
+        console.log(user);
+        console.log(username, password);
+    }
+    catch (error) {
+        console.log('error signing up:', error);
+        console.log(error.message);
+    }
+}
 
-// Yup handles validation of user inputs
-const SignUpSchema = yup.object({
-    // Username is required to be a string, required to be entered, and must be
-    // 4 characters 
-    username: yup.string()
-        .required()
-        .min(4),
-
-    password: yup.string()
-        .required()
-        .min(8)
-        .test('Has non-alnum character', 'Has capital letter', (val) => {
-            return true;
-        })
-})
 
 export default function SignUp() {
 
-    return(
-        <View style ={styles.container}>
-            
+    return (
+        <View style={styles.container}>
+
             <Text style={styles.logo}>Gettogether</Text>
 
             <Formik
-                initialValues={{username: '', password: ''}}
-                validationSchema={SignUpSchema}
-                
-                onSubmit ={(values, actions) => {
+                initialValues={{ username: '', password: '', email: '' }}
+
+                onSubmit={(values, actions) => {
+                    // db query for unique username
                     console.log(values);
                     //Reset the form after submitting
                     actions.resetForm();
+                    signUpAWS(values.username, values.password, values.email);
                     //Add the query to database to check if username exists and display error message
-                   
+
                 }}
             >
                 {(props) => (
@@ -52,37 +55,47 @@ export default function SignUp() {
                             style={styles.inputView}
                             autoCorrect={false}
                             autoCapitalize='none'
-                            placeholder = 'Username...'
-                            placeholderTextColor = "#003f5c"
+                            placeholder='Username...'
+                            placeholderTextColor="#003f5c"
                             onChangeText={props.handleChange('username')}
                             value={props.values.username}
-                            //keyboardType='numbers-and-punctuation'
+                        //keyboardType='numbers-and-punctuation'
                         />
-                        <Text style={styles.error}>{ props.errors.username }</Text>
+                        <Text style={styles.error}>{props.errors.username}</Text>
 
                         <TextInput
                             style={styles.inputView}
                             autoCorrect={false}
                             autoCapitalize='none'
-                            placeholder = 'Password...'
-                            placeholderTextColor = "#003f5c"
+                            placeholder='Password...'
+                            placeholderTextColor="#003f5c"
                             onChangeText={props.handleChange('password')}
                             value={props.values.password}
-                            //keyboardType='numbers-and-punctuation'
+                        //keyboardType='numbers-and-punctuation'
                         />
-                        <Text style={styles.error}>{ props.errors.password }</Text>
-                        
+                        <Text style={styles.error}>{props.errors.password}</Text>
+                        <TextInput
+                            style={styles.inputView}
+                            autoCorrect={false}
+                            autoCapitalize='none'
+                            placeholder='Email...'
+                            placeholderTextColor="#003f5c"
+                            onChangeText={props.handleChange('email')}
+                            value={props.values.email}
+                        //keyboardType='numbers-and-punctuation'
+                        />
+
                         <Pressable
-                            style = {styles.SignUpBtn}
+                            style={styles.SignUpBtn}
                             onPress={props.handleSubmit}
                         >
                             <Text>Sign Up</Text>
-                         </Pressable>
+                        </Pressable>
 
                     </View>
                 )}
-            </Formik> 
-        
+            </Formik>
+
         </View>
     )
 }
@@ -94,46 +107,46 @@ const styles = StyleSheet.create({
         backgroundColor: '#003f5c',
         alignItems: 'center',
         justifyContent: 'center',
-        
+
     },
 
-    logo:{
-        fontWeight:"bold",
-        fontSize:50,
-        color:"#fb5b5a",
-        marginBottom:40
-      },
+    logo: {
+        fontWeight: "bold",
+        fontSize: 50,
+        color: "#fb5b5a",
+        marginBottom: 40
+    },
 
-    inputView:{
+    inputView: {
         color: "white",
         width: 300,
-        backgroundColor:"#465881",
-        borderRadius:25,
-        height:50,
-        marginBottom:5,
-        justifyContent:"center",
-        padding:15
+        backgroundColor: "#465881",
+        borderRadius: 25,
+        height: 50,
+        marginBottom: 5,
+        justifyContent: "center",
+        padding: 15
     },
-    
+
     error: {
-        fontWeight:"bold",
+        fontWeight: "bold",
         color: '#ddd',
-        marginBottom:20
+        marginBottom: 20
     },
 
-    inputText:{
-        height:50,
-        color:"white"
+    inputText: {
+        height: 50,
+        color: "white"
     },
 
-    SignUpBtn:{
-        backgroundColor:"#ddd",
-        borderRadius:25,
-        height:50,
-        alignItems:"center",
-        justifyContent:"center",
-        marginTop:30,
-        marginBottom:10
-      },
+    SignUpBtn: {
+        backgroundColor: "#ddd",
+        borderRadius: 25,
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 30,
+        marginBottom: 10
+    },
 
 })
