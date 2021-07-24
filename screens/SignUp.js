@@ -10,14 +10,11 @@ import {
 } from 'react-native';
 import { Formik } from 'formik';
 import { Auth } from 'aws-amplify';
-async function signUpAWS(username, password, email) {
+async function signUpAWS(username, password) {
     try {
         const { user } = await Auth.signUp({
             username,
             password,
-            attributes: {
-                email,
-            }
         });
         console.log(user);
         console.log(username, password);
@@ -37,14 +34,14 @@ export default function SignUp() {
             <Text style={styles.logo}>Gettogether</Text>
 
             <Formik
-                initialValues={{ username: '', password: '', email: '' }}
+                initialValues={{ username: '', password: ''}}
 
                 onSubmit={(values, actions) => {
                     // db query for unique username
                     console.log(values);
                     //Reset the form after submitting
                     actions.resetForm();
-                    signUpAWS(values.username, values.password, values.email);
+                    signUpAWS(values.username, values.password);
                     //Add the query to database to check if username exists and display error message
 
                 }}
@@ -74,16 +71,6 @@ export default function SignUp() {
                         //keyboardType='numbers-and-punctuation'
                         />
                         <Text style={styles.error}>{props.errors.password}</Text>
-                        <TextInput
-                            style={styles.inputView}
-                            autoCorrect={false}
-                            autoCapitalize='none'
-                            placeholder='Email...'
-                            placeholderTextColor="#003f5c"
-                            onChangeText={props.handleChange('email')}
-                            value={props.values.email}
-                        //keyboardType='numbers-and-punctuation'
-                        />
 
                         <Pressable
                             style={styles.SignUpBtn}
