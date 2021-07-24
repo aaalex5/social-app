@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 import {
     Pressable,
@@ -10,23 +10,36 @@ import {
 } from 'react-native';
 import { Formik } from 'formik';
 import { Auth } from 'aws-amplify';
-async function signUpAWS(username, password) {
-    try {
-        const { user } = await Auth.signUp({
-            username,
-            password,
-        });
-        console.log(user);
-        console.log(username, password);
-    }
-    catch (error) {
-        console.log('error signing up:', error);
-        console.log(error.message);
-    }
-}
 
 
-export default function SignUp() {
+
+const SignUp = ( { navigation }) => {
+    const [errorMessage, setErrorMessage] = useState("");
+    async function signUpAWS(username, password) {
+        try {
+            const { user } = await Auth.signUp({
+                username,
+                password,
+            });
+            console.log(user);
+            console.log(username, password);
+
+            navigation.navigate('EventHome');
+            // send to event screen
+        }
+        catch (error) {
+            console.log('error signing up:', error);
+            console.log(error.message);
+            setErrorMessage(error.message);
+            setBadPassword(1);
+        }
+        
+    }
+    const [badPassword, setBadPassword] = useState(0);
+    let message = <Text></Text>;
+    if (badPassword) {
+        message = <Text>{errorMessage}</Text>
+    }
 
     return (
         <View style={styles.container}>
@@ -70,7 +83,10 @@ export default function SignUp() {
                             value={props.values.password}
                         //keyboardType='numbers-and-punctuation'
                         />
-                        <Text style={styles.error}>{props.errors.password}</Text>
+
+                        {/* <Text>{errorMessage}</Text> */}
+                        {message}
+                       
 
                         <Pressable
                             style={styles.SignUpBtn}
@@ -137,3 +153,4 @@ const styles = StyleSheet.create({
     },
 
 })
+export default SignUp;

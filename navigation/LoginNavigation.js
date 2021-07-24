@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from "../screens/LoginScreen.js";
 import SignUp from "../screens/SignUp.js";
+import EventHome from "../screens/EventHome.js";
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,13 @@ const LoginNavigation = (props) => {
                     component={SignUp}
                     options={{
                         title: 'Sign Up'
+                    }}
+                />
+                <Stack.Screen
+                    name={"EventHome"}
+                    component={EventHome}
+                    options={{
+                        title: 'Welcome Home'
                     }}
                 />
             </Stack.Navigator>
