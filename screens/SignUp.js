@@ -38,13 +38,13 @@ const SignUp = ( { navigation }) => {
     const [badPassword, setBadPassword] = useState(0);
     let message = <Text></Text>;
     if (badPassword) {
-        message = <Text>{errorMessage}</Text>
+        message = <Text style={styles.error}>{errorMessage}</Text>
     }
 
     return (
         <View style={styles.container}>
 
-            <Text style={styles.logo}>Gettogether</Text>
+            <Text style={styles.logo}>Getogether</Text>
 
             <Formik
                 initialValues={{ username: '', password: ''}}
@@ -71,7 +71,7 @@ const SignUp = ( { navigation }) => {
                             value={props.values.username}
                         //keyboardType='numbers-and-punctuation'
                         />
-                        <Text style={styles.error}>{props.errors.username}</Text>
+                        {/* <Text style={styles.error}>{props.errors.username}</Text> */}
 
                         <TextInput
                             style={styles.inputView}
@@ -126,14 +126,16 @@ const styles = StyleSheet.create({
         backgroundColor: "#465881",
         borderRadius: 25,
         height: 50,
-        marginBottom: 5,
+        marginBottom: 15,
         justifyContent: "center",
         padding: 15
     },
 
     error: {
+        width: 300,
         fontWeight: "bold",
-        color: '#ddd',
+        textAlign: 'center',
+        color: '#fb5b5a',
         marginBottom: 20
     },
 

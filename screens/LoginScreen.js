@@ -32,7 +32,7 @@ const LoginScreen = ( {navigation} ) => {
 
     return (
         <View style ={styles.container}>
-            <Text style={styles.logo}>Gettogether</Text>
+            <Text style={styles.logo}>Getogether</Text>
 
             <TextInput
                 style={styles.inputView}
