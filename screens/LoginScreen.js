@@ -8,25 +8,36 @@ import {
     View,
     ImageBackground,
 } from 'react-native';
+import { Auth } from 'aws-amplify';
 
 
 const LoginScreen = ( {navigation} ) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [validLogin] = useState(0);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [badLogin, setBadLogin] = useState(0);
 
     const handlePress = () => {
         navigation.navigate('SignUp');
     }
 
     const handleSubmit = () => {
+        signIn();
         console.log(username);
     };
-    
-    const handleButton = () => {
-        if (username.length > 0 && password.length > 0) {
-            validLogin = 1;
+    async function signIn() {
+        try {
+            const user = await Auth.signIn(username, password);
+            navigation.navigate('EventHome');
+        } catch (error) {
+            console.log('error signing in', error);
+            setErrorMessage(error.message);
+            setBadLogin(1);
         }
+    }
+    let message = <Text></Text>;
+    if (badLogin) {
+        message = <Text style={styles.error}>{errorMessage}</Text>
     }
     
 
@@ -50,11 +61,11 @@ const LoginScreen = ( {navigation} ) => {
                 placeholderTextColor = "#003f5c"
                 onChangeText={password=>setPassword(password)}
             />
+            {message}
 
             <Pressable
                 style = {styles.SubmitBtn}
                 onPress={handleSubmit}
-                disabled={validLogin}
             >
                 <Text>Submit</Text>
                 
@@ -105,6 +116,14 @@ const styles = StyleSheet.create({
         marginBottom:30,
         justifyContent:"center",
         padding:15
+    },
+
+    error: {
+        width: 300,
+        fontWeight: "bold",
+        textAlign: 'center',
+        color: '#fb5b5a',
+        marginBottom: 20
     },
        
 })
