@@ -17,8 +17,7 @@ const LoginScreen = ( {navigation} ) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [badLogin, setBadLogin] = useState(0);
 
-    // On 
-    const handlePress = () => {
+    const handleSignUp = () => {
         navigation.navigate('SignUp');
     }
 
@@ -86,7 +85,7 @@ const LoginScreen = ( {navigation} ) => {
             </Pressable>
             
             <Pressable
-                onPress={handlePress}
+                onPress={handleSignUp}
             >
                 <Text style={{color: 'white'}}>Don't have an account? Sign up here</Text>
             </Pressable>

@@ -6,7 +6,7 @@ import SignUp from "../screens/SignUp.js";
 import EventHome from "../screens/EventHome.js";
 
 const Stack = createStackNavigator();
-
+// adds screens so they can be navigated to
 const LoginNavigation = (props) => {
     return (
         <NavigationContainer>

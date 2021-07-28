@@ -14,8 +14,7 @@ import { Auth } from 'aws-amplify';
 
 
 const SignUp = ( { navigation }) => {
-    const [errorMessage, setErrorMessage] = useState("");
-
+    const [errorMessage, setErrorMessage] = useState('');
 
      /* 
     The username and password submitted by the user are sent to and checked for errors by AWS. 
@@ -34,9 +33,8 @@ const SignUp = ( { navigation }) => {
             });
             console.log(user);
             console.log(username, password);
-
-            navigation.navigate('EventHome');
             // send to event screen
+            navigation.navigate('EventHome');
         }
         catch (error) {
             console.log('error signing up:', error);
@@ -44,7 +42,6 @@ const SignUp = ( { navigation }) => {
             setErrorMessage(error.message);
             setBadSignup(1);
         }
-        
     }
 
 
@@ -89,10 +86,7 @@ const SignUp = ( { navigation }) => {
                             placeholderTextColor="#003f5c"
                             onChangeText={props.handleChange('username')}
                             value={props.values.username}
-                        //keyboardType='numbers-and-punctuation'
                         />
-                        {/* <Text style={styles.error}>{props.errors.username}</Text> */}
-
                         <TextInput
                             style={styles.inputView}
                             autoCorrect={false}
@@ -101,10 +95,8 @@ const SignUp = ( { navigation }) => {
                             placeholderTextColor="#003f5c"
                             onChangeText={props.handleChange('password')}
                             value={props.values.password}
-                        //keyboardType='numbers-and-punctuation'
                         />
-
-                        {/* <Text>{errorMessage}</Text> */}
+                        {/* conditional error message */}
                         {message}
                        
 
