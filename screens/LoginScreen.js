@@ -17,6 +17,7 @@ const LoginScreen = ( {navigation} ) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [badLogin, setBadLogin] = useState(0);
 
+    // On 
     const handlePress = () => {
         navigation.navigate('SignUp');
     }
@@ -25,6 +26,15 @@ const LoginScreen = ( {navigation} ) => {
         signIn();
         console.log(username);
     };
+
+    /* 
+    The username and password submitted by the user are sent to and checked for errors by cognito. 
+    If cognito returns an error, it is caught by our code and the badLogin variable is set to true while the errorMessage string is set
+    to be the error message that cognito returns. 
+
+    This function is run on every submit until the user provides a valid username/password combination. At that point,
+    the user will be navigated to the Event/Home page.
+    */
     async function signIn() {
         try {
             const user = await Auth.signIn(username, password);
@@ -35,6 +45,11 @@ const LoginScreen = ( {navigation} ) => {
             setBadLogin(1);
         }
     }
+
+    /* 
+    This is the variable for the error message that is displayed on the form if a user submits an invalid login.
+    When cognito sends an error message, this variable is updated and the login screen is rerendered to display it.
+    */
     let message = <Text></Text>;
     if (badLogin) {
         message = <Text style={styles.error}>{errorMessage}</Text>
@@ -44,7 +59,6 @@ const LoginScreen = ( {navigation} ) => {
     return (
         <View style ={styles.container}>
             <Text style={styles.logo}>Getogether</Text>
-
             <TextInput
                 style={styles.inputView}
                 autoCorrect={false}
@@ -80,6 +94,8 @@ const LoginScreen = ( {navigation} ) => {
     );
 };
 
+
+// Style definitions
 const styles = StyleSheet.create({
     container: {
         flex: 1,

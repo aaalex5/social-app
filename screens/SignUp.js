@@ -15,6 +15,17 @@ import { Auth } from 'aws-amplify';
 
 const SignUp = ( { navigation }) => {
     const [errorMessage, setErrorMessage] = useState("");
+
+
+     /* 
+    The username and password submitted by the user are sent to and checked for errors by AWS. 
+    If AWS returns an error, it is caught by our code and the badSignup variable is set to true while the errorMessage string is set
+    to be the error message that AWS returns. 
+
+    This function is run on every submit until the user provides a valid username/password combination. At that point,
+    the user information will be placed into the AWS pool and the user will be navigated to the Event/Home page.
+    */
+
     async function signUpAWS(username, password) {
         try {
             const { user } = await Auth.signUp({
@@ -31,15 +42,24 @@ const SignUp = ( { navigation }) => {
             console.log('error signing up:', error);
             console.log(error.message);
             setErrorMessage(error.message);
-            setBadPassword(1);
+            setBadSignup(1);
         }
         
     }
-    const [badPassword, setBadPassword] = useState(0);
+
+
+    const [badSignup, setBadSignup] = useState(0);
     let message = <Text></Text>;
-    if (badPassword) {
+    if (badSignup) {
         message = <Text style={styles.error}>{errorMessage}</Text>
     }
+
+
+    /*
+    Formik helps handle the username/password entry as a single form being submitted. It is definited within the view.
+    We use it to store the values of username and password, send them to AWS, and also to reset the username and 
+    password fields after a user submits an entry.
+    */
 
     return (
         <View style={styles.container}>
@@ -103,6 +123,8 @@ const SignUp = ( { navigation }) => {
     )
 }
 
+
+// Styles defined
 const styles = StyleSheet.create({
 
     container: {
