@@ -1,5 +1,6 @@
-type User @model {
+type Event @model {
   id: ID!
   name: String!
   description: String
+  location: String!
 }
