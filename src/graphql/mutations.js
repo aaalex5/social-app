@@ -11,6 +11,7 @@ export const createEvent = /* GraphQL */ `
       name
       description
       location
+      owner
       createdAt
       updatedAt
     }
@@ -26,6 +27,7 @@ export const updateEvent = /* GraphQL */ `
       name
       description
       location
+      owner
       createdAt
       updatedAt
     }
@@ -41,6 +43,7 @@ export const deleteEvent = /* GraphQL */ `
       name
       description
       location
+      owner
       createdAt
       updatedAt
     }

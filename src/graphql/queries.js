@@ -8,6 +8,7 @@ export const getEvent = /* GraphQL */ `
       name
       description
       location
+      owner
       createdAt
       updatedAt
     }
@@ -25,6 +26,7 @@ export const listEvents = /* GraphQL */ `
         name
         description
         location
+        owner
         createdAt
         updatedAt
       }

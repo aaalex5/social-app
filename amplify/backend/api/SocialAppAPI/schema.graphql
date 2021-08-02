@@ -1,6 +1,7 @@
 type Event @model {
   id: ID!
   name: String!
-  description: String
+  description: String!
   location: String!
+  owner: String!
 }

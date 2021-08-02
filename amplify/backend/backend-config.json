@@ -8,7 +8,7 @@
     }
   },
   "api": {
-    "SocialAppAPI": {
+    "socialAppAPI": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -23,5 +23,6 @@
         }
       }
     }
-  }
+  },
+  "function": {}
 }
