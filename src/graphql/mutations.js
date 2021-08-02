@@ -1,43 +1,46 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createUser = /* GraphQL */ `
-  mutation CreateUser(
-    $input: CreateUserInput!
-    $condition: ModelUserConditionInput
+export const createEvent = /* GraphQL */ `
+  mutation CreateEvent(
+    $input: CreateEventInput!
+    $condition: ModelEventConditionInput
   ) {
-    createUser(input: $input, condition: $condition) {
+    createEvent(input: $input, condition: $condition) {
       id
       name
       description
+      location
       createdAt
       updatedAt
     }
   }
 `;
-export const updateUser = /* GraphQL */ `
-  mutation UpdateUser(
-    $input: UpdateUserInput!
-    $condition: ModelUserConditionInput
+export const updateEvent = /* GraphQL */ `
+  mutation UpdateEvent(
+    $input: UpdateEventInput!
+    $condition: ModelEventConditionInput
   ) {
-    updateUser(input: $input, condition: $condition) {
+    updateEvent(input: $input, condition: $condition) {
       id
       name
       description
+      location
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteUser = /* GraphQL */ `
-  mutation DeleteUser(
-    $input: DeleteUserInput!
-    $condition: ModelUserConditionInput
+export const deleteEvent = /* GraphQL */ `
+  mutation DeleteEvent(
+    $input: DeleteEventInput!
+    $condition: ModelEventConditionInput
   ) {
-    deleteUser(input: $input, condition: $condition) {
+    deleteEvent(input: $input, condition: $condition) {
       id
       name
       description
+      location
       createdAt
       updatedAt
     }
