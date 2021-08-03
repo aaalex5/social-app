@@ -43,6 +43,7 @@ const EventHome = ({ navigation }) => {
 
     // When the user submits an event, send event to database
     const addEvent = (event) => {
+        console.log(event.date);
         setModalOpen(false);
     }
 

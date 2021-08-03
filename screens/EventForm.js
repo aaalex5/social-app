@@ -8,13 +8,25 @@ import {
     ImageBackground,
 } from 'react-native';
 import { Formik } from 'formik';
+import * as yup from 'yup';
+
+const eventSchema = yup.object({
+    title: yup.string()
+        .required()
+        .min(4),
+
+})
 
 export default function EventForm({ addEvent }) {
 
     return (
         <View style={styles.container}>
+
+            <Text style={styles.logo}>New Post</Text>
+
             <Formik
                 initialValues={{ title: '', location: '', date: '', time: '', description: ''}}
+                validationSchema={eventSchema}
                 onSubmit={(values, actions) => {
                     // Sent the event information back out to the home page
                     console.log(values);
@@ -34,6 +46,8 @@ export default function EventForm({ addEvent }) {
                         onChangeText={props.handleChange('title')}
                         value={props.values.title}
                     />
+                    <Text style={styles.error}>{ props.errors.title }</Text>
+
                     <TextInput
                         style={styles.inputView}
                         autoCorrect={false}
@@ -43,6 +57,8 @@ export default function EventForm({ addEvent }) {
                         onChangeText={props.handleChange('location')}
                         value={props.values.location}
                     />
+                    <Text style={styles.error}>{ props.errors.location }</Text>
+
                     <TextInput
                         style={styles.inputView}
                         autoCorrect={false}
@@ -52,6 +68,8 @@ export default function EventForm({ addEvent }) {
                         onChangeText={props.handleChange('date')}
                         value={props.values.date}
                     />
+                    <Text style={styles.error}>{ props.errors.date }</Text>
+
                     <TextInput
                         style={styles.inputView}
                         autoCorrect={false}
@@ -61,6 +79,8 @@ export default function EventForm({ addEvent }) {
                         onChangeText={props.handleChange('time')}
                         value={props.values.time}
                     />
+                    <Text style={styles.error}>{ props.errors.time }</Text>
+
                     <TextInput
                         style={styles.inputView}
                         autoCorrect={false}
@@ -70,12 +90,13 @@ export default function EventForm({ addEvent }) {
                         onChangeText={props.handleChange('description')}
                         value={props.values.description}
                     />
+                    <Text style={styles.error}>{ props.errors.description }</Text>
                    
                     <Pressable
-                        style={styles.SubmitBtn}
+                        style={styles.PostBtn}
                         onPress={props.handleSubmit}
                     >
-                        <Text>Submit</Text>
+                        <Text>Post</Text>
                     </Pressable>
 
                 </View>
@@ -93,13 +114,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
+    logo: {
+        fontWeight: "bold",
+        fontSize: 40,
+        color: "white",
+        marginBottom: 40
+    },
+
     inputView: {
         color: "white",
         width: 300,
         backgroundColor: "#465881",
         borderRadius: 25,
         height: 50,
-        marginBottom: 15,
+        marginBottom: 5,
         justifyContent: "center",
         padding: 15
     },
@@ -109,7 +137,7 @@ const styles = StyleSheet.create({
         color: "white"
     },
 
-    SubmitBtn: {
+    PostBtn: {
         backgroundColor: "#ddd",
         borderRadius: 25,
         height: 50,
@@ -119,4 +147,11 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
 
+    error: {
+        width: 300,
+        fontWeight: "bold",
+        textAlign: 'center',
+        color: '#fb5b5a',
+        marginBottom: 20
+    },
 })
