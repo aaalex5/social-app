@@ -13,9 +13,11 @@ import {
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import { createEvent } from '../src/graphql/mutations'
 import { listEvents  } from '../src/graphql/queries';
+import EventForm from './EventForm';
 
 
-const EventHome = () => {
+const EventHome = ({ navigation }) => {
+    // Modal for Event Submit is default to false
     const [modalOpen, setModalOpen] = useState(false);
 
     const [events, setEvents] = useState([]);
@@ -38,6 +40,13 @@ const EventHome = () => {
         }
 
     };
+
+    // When the user submits an event, send event to database
+    const addEvent = (event) => {
+        console.log(event.date);
+        setModalOpen(false);
+    }
+
     return (
 
         <View style ={styles.container}>
@@ -49,7 +58,8 @@ const EventHome = () => {
                 size={24}
                 style={{ ...styles.modalToggle, ...styles.modalClose }}
                 onPress={() => setModalOpen(false)}
-        />
+                />
+            <EventForm addEvent={addEvent}/>
             </View>
         </Modal>
 
@@ -76,12 +86,16 @@ const styles = StyleSheet.create({
     },
 
     modalContent: {
-
+        flex: 1,
+        backgroundColor: '#003f5c',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     modalToggle: {
         marginBottom: 10,
         borderWidth: 1,
+        backgroundColor: 'white',
         borderColor: '#f2f2f2',
         padding: 10,
         borderRadius: 10,
@@ -89,7 +103,7 @@ const styles = StyleSheet.create({
     },
 
     modalClose: {
-        marginTop: 10,
+        marginTop: 50,
         marginBottom: 0,
     }
 })
