@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "socialappc0633e65": {}
+      },
+      "function": {
+        "socialAppFunction": {
+          "deploymentBucketName": "amplify-socialapp-dev-160559-deployment",
+          "s3Key": "amplify-builds/socialAppFunction-6c7148336f724c62374b-build.zip"
+        }
       }
     }
   }

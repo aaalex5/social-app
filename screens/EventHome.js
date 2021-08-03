@@ -10,37 +10,54 @@ import {
     ImageBackground,
     Modal,
 } from 'react-native';
-import Amplify, { API, graphqlOperation } from "aws-amplify";
-import { createEvent } from '../src/graphql/mutations'
-import { listEvents  } from '../src/graphql/queries';
+import Amplify, { API } from "aws-amplify";
 import EventForm from './EventForm';
+import { concat } from "react-native-reanimated";
 
 
 const EventHome = ({ navigation }) => {
     // Modal for Event Submit is default to false
     const [modalOpen, setModalOpen] = useState(false);
-
-    const [events, setEvents] = useState([]);
-    //query on every re-render
-    useEffect( () => {
-        fetchEvents();
-    //array makes it query on first render
-    }, [events]);
-    const fetchEvents = async () => {
+    async function createEvent () {
+        const data = {
+          body: {
+            id: '1',
+            title: 'First Event',
+            location: 'Big House',
+            date: 'today',
+            time: 'right now'
+          }
+        };
         try {
-            // const eventData = await API.graphql(graphqlOperation(listEvents));
-            // const eventList = eventData.data.listEvents.items;
-            // console.log(eventList);
-            // setEvents(eventList);
-            const result = await API.graphql(graphqlOperation(listEvents));
-            setEvents({data: result});
+            const apiData = await API.post('socialAppAPI', '/items', data);
+            console.log({ apiData });
+            console.log("SUCCESS");
         }
-        catch (error) {
-            console.log(error);
+        catch (e) {
+            console.log(e);
+            console.log("FAIL");
         }
+        
+      }
+      async function fetchEvents() {
+          try {
+            const contactData = await API.get('socialAppAPI', '/items');
+            console.log({ contactData });
+            console.log("Success");
+          }
+          catch (e) {
+              console.log(e);
+              console.log("failed to get data");
+          }
+        
+      }
+      useEffect(() => {
+          createEvent();
+          fetchEvents()
+      })
 
-    };
 
+    
     // When the user submits an event, send event to database
     const addEvent = (event) => {
         console.log(event.date);
