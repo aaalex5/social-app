@@ -11,7 +11,8 @@ import {
     Modal,
 } from 'react-native';
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import { listEvents } from '../src/graphql/queries'
+import { createEvent } from '../src/graphql/mutations'
+import { listEvents  } from '../src/graphql/queries';
 
 
 const EventHome = () => {
@@ -22,17 +23,18 @@ const EventHome = () => {
     useEffect( () => {
         fetchEvents();
     //array makes it query on first render
-    }, []);
+    }, [events]);
     const fetchEvents = async () => {
         try {
-            const eventData = await API.graphql(graphqlOperation(listEvents));
-            const eventList = eventData.data.listEvents.items;
-            console.log(eventList);
-            setEvents(eventList);
+            // const eventData = await API.graphql(graphqlOperation(listEvents));
+            // const eventList = eventData.data.listEvents.items;
+            // console.log(eventList);
+            // setEvents(eventList);
+            const result = await API.graphql(graphqlOperation(listEvents));
+            setEvents({data: result});
         }
         catch (error) {
             console.log(error);
-
         }
 
     };
