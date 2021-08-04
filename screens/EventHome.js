@@ -53,7 +53,7 @@ const EventHome = ({ navigation }) => {
       }
       useEffect(() => {
           createEvent();
-          fetchEvents()
+          //fetchEvents()
       })
 
 

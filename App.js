@@ -18,7 +18,7 @@ Amplify.configure({
    }
  });
 //Amplify.configure(awsconfig);
-//API.configure(awsconfig);
+API.configure(awsconfig);
 
 export default function App() {
   return (
