@@ -1,19 +1,19 @@
 {
   "paths": [
     {
-      "name": "/items",
-      "lambdaFunction": "socialAppFunction",
+      "name": "/events",
+      "lambdaFunction": "SAEventsFunction",
       "privacy": {
         "open": true
       },
-      "policyResourceName": "/items"
+      "policyResourceName": "/events"
     }
   ],
-  "resourceName": "socialAppAPI",
-  "apiName": "socialAppAPI",
+  "resourceName": "SAEventsAPI",
+  "apiName": "SAEventsAPI",
   "functionArns": [
     {
-      "lambdaFunction": "socialAppFunction"
+      "lambdaFunction": "SAEventsFunction"
     }
   ],
   "privacy": {
@@ -25,7 +25,7 @@
   "dependsOn": [
     {
       "category": "function",
-      "resourceName": "socialAppFunction",
+      "resourceName": "SAEventsFunction",
       "attributes": [
         "Name",
         "Arn"

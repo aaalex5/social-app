@@ -13,49 +13,44 @@ import {
 import Amplify, { API } from "aws-amplify";
 import EventForm from './EventForm';
 import { concat } from "react-native-reanimated";
+import e from "cors";
 
 
 const EventHome = ({ navigation }) => {
     // Modal for Event Submit is default to false
     const [modalOpen, setModalOpen] = useState(false);
-    async function createEvent () {
-        const data = {
-          body: {
-            id: '1',
-            title: 'First Event',
-            location: 'Big House',
-            date: 'today',
-            time: 'right now'
-          }
-        };
+    const [events, setEvents] = useState([]);
+
+
+    useEffect(() => {
+        getEvent()
+    }, [])
+
+    const getEvent = async () => {
         try {
-            const apiData = await API.post('socialAppAPI', '/items', data);
-            console.log({ apiData });
-            console.log("SUCCESS");
+            console.log("in cdm function");
+            const data = await API.get('SAEventsAPI', '/events');
+            setEvents(data.events);
+            console.log("EVENTS", events);
+
         }
         catch (e) {
-            console.log(e);
-            console.log("FAIL");
+            console.log("Error on get", e)
         }
-        
-      }
-      async function fetchEvents() {
-          try {
-            const contactData = await API.get('socialAppAPI', '/items');
-            console.log({ contactData });
-            console.log("Success");
-          }
-          catch (e) {
-              console.log(e);
-              console.log("failed to get data");
-          }
-        
-      }
-      useEffect(() => {
-          createEvent();
-          //fetchEvents()
-      })
-
+    }
+    // const apiName = 'SAEventsAPI';
+    // const path = '/events';
+    // API
+    //     .get(apiName, path)
+    //     .then(response => {
+    //         console.log("then block");
+    //         if (!response.ok) throw Error(response.statusText);
+    //         return response.json();
+    //     })
+    //     .catch(error => {
+    //         console.log("error block");
+    //         console.log(error);
+    //     });
 
     
     // When the user submits an event, send event to database

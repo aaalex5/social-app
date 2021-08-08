@@ -15,14 +15,6 @@
     },
     "s3Key": {
       "Type": "String"
-    },
-    "storageeventTableName": {
-      "Type": "String",
-      "Default": "storageeventTableName"
-    },
-    "storageeventTableArn": {
-      "Type": "String",
-      "Default": "storageeventTableArn"
     }
   },
   "Conditions": {
@@ -55,12 +47,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "socialAppFunction",
+            "SAEventsFunction",
             {
               "Fn::Join": [
                 "",
                 [
-                  "socialAppFunction",
+                  "SAEventsFunction",
                   "-",
                   {
                     "Ref": "env"
@@ -97,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "socialappLambdaRole41e0c9f4",
+            "socialappLambdaRole70a2e74a",
             {
               "Fn::Join": [
                 "",
                 [
-                  "socialappLambdaRole41e0c9f4",
+                  "socialappLambdaRole70a2e74a",
                   "-",
                   {
                     "Ref": "env"
@@ -168,34 +160,6 @@
                   }
                 ]
               }
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:DescribeTable",
-                "dynamodb:GetItem",
-                "dynamodb:Query",
-                "dynamodb:Scan",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem"
-              ],
-              "Resource": [
-                {
-                  "Ref": "storageeventTableArn"
-                },
-                {
-                  "Fn::Join": [
-                    "/",
-                    [
-                      {
-                        "Ref": "storageeventTableArn"
-                      },
-                      "index/*"
-                    ]
-                  ]
-                }
-              ]
             }
           ]
         }

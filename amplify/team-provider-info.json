@@ -16,9 +16,9 @@
         "socialappc0633e65": {}
       },
       "function": {
-        "socialAppFunction": {
+        "SAEventsFunction": {
           "deploymentBucketName": "amplify-socialapp-dev-160559-deployment",
-          "s3Key": "amplify-builds/socialAppFunction-6c7148336f724c62374b-build.zip"
+          "s3Key": "amplify-builds/SAEventsFunction-6d70724865797579356b-build.zip"
         }
       }
     }

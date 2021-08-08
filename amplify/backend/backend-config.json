@@ -8,13 +8,13 @@
     }
   },
   "api": {
-    "socialAppAPI": {
+    "SAEventsAPI": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "socialAppFunction",
+          "resourceName": "SAEventsFunction",
           "attributes": [
             "Name",
             "Arn"
@@ -24,24 +24,10 @@
     }
   },
   "function": {
-    "socialAppFunction": {
+    "SAEventsFunction": {
       "build": true,
       "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "eventTable",
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
-        }
-      ]
+      "service": "Lambda"
     }
   },
   "storage": {
