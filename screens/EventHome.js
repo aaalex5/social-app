@@ -10,7 +10,7 @@ import {
     ImageBackground,
     Modal,
 } from 'react-native';
-import Amplify, { API } from "aws-amplify";
+import Amplify, { API, withSSRContext } from "aws-amplify";
 import EventForm from './EventForm';
 import { concat } from "react-native-reanimated";
 import e from "cors";
@@ -107,7 +107,8 @@ const styles = StyleSheet.create({
     modalToggle: {
         marginBottom: 10,
         borderWidth: 1,
-        backgroundColor: 'white',
+        color: "white",
+        backgroundColor: '#003f5c',
         borderColor: '#f2f2f2',
         padding: 10,
         borderRadius: 10,
@@ -115,6 +116,7 @@ const styles = StyleSheet.create({
     },
 
     modalClose: {
+        marginLeft: 300,
         marginTop: 50,
         marginBottom: 0,
     }

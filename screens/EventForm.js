@@ -5,6 +5,7 @@ import {
     Text,
     TextInput,
     View,
+    KeyboardAvoidingView,
     ImageBackground,
 } from 'react-native';
 import { Formik } from 'formik';
@@ -19,7 +20,13 @@ const eventSchema = yup.object({
 
 export default function EventForm({ addEvent }) {
 
+
     return (
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
+
         <View style={styles.container}>
 
             <Text style={styles.logo}>New Post</Text>
@@ -98,12 +105,14 @@ export default function EventForm({ addEvent }) {
                     >
                         <Text>Post</Text>
                     </Pressable>
-
                 </View>
+                
                 )}
             </Formik>
         </View>
+        </KeyboardAvoidingView>
     )
+
 }
 
 const styles = StyleSheet.create({
@@ -115,10 +124,11 @@ const styles = StyleSheet.create({
     },
 
     logo: {
+        marginTop: 0,
         fontWeight: "bold",
         fontSize: 40,
         color: "white",
-        marginBottom: 40
+        marginBottom: 40,
     },
 
     inputView: {
