@@ -22,6 +22,10 @@ const EventHome = ({ navigation }) => {
     const [events, setEvents] = useState([]);
     const apiName = 'EventAPI';
     const path = '/events';
+    const myInit = {
+        headers: {},
+        queryStringParameters: {}
+    }
 
 
     useEffect(() => {
@@ -29,17 +33,27 @@ const EventHome = ({ navigation }) => {
     }, [])
 
     const getEvent = async () => {
-        try {
+        //try {
+            myInit.queryStringParameters = {number: 10};
             console.log("in cdm function");
-            const data = await API.get(apiName, path);
-            console.log(data);
-            setEvents(data.events);
-            console.log("EVENTS", events);
+            API.get(apiName, path, myInit)
+            .then(data => {
+                console.log("DATA", data);
+                setEvents(data.events);
+                console.log("EVENTS", events);
+            })
+            .catch(err => {
+                console.log("Error on get", e);
+            })
+            // const data = await API.get(apiName, path);
+            // console.log(data);
+            // setEvents(data.events);
+            // console.log("EVENTS", events);
 
-        }
-        catch (e) {
-            console.log("Error on get", e)
-        }
+        //}
+        // catch (e) {
+        //     console.log("Error on get", e)
+        // }
     }
     
     // When the user submits an event, send event to database

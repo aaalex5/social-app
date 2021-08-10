@@ -65,43 +65,39 @@ app.get('/events', function(req, res) {
   //   }
   // }
   // FOR TESTING
+  const query = req.query;
+  console.log("QUERY", query);
   console.log("IN GET API THING"); 
-  const createEvent = async (event) => {
-    const response = { statusCode: 200 };
+    // const response = { statusCode: 200 };
+  const params = {
+      TableName: tableName,
+      Item: {
+          id: '123456',
+          title: 'second event',
+          location: 'Big House',
+          date: 'today',
+          time: 'now'
+      }
+  };
 
-    try {
-        const params = {
-            TableName: tableName,
-            Item: {
-                id: '12345',
-                title: 'first event',
-                location: 'Big House',
-                date: 'today',
-                time: 'now'
-            }
-        };
-        const data = await dynamodb.put(params).promise();
+  // var putPromise = dynamodb.put(params).promise();
+  // putPromise.then(function(data) {
+  //   console.log("DATA", data);
+  //   res.body = JSON.stringify({
+  //     message: "Successfully created post.",
+  //     data,
+  //   });
+  // })
+  // .catch(function(err) {
+  //   console.log("ERROR", err);
+  //   res.statusCode = 500;
+  //   res.body = JSON.stringify({
+  //     message: "Failed to create post.",
+  //     errorMsg: e.message,
+  //     errorStack: e.stack,
+  //   });
+  // })
 
-        console.log("DATA", data);
-
-        response.body = JSON.stringify({
-            message: "Successfully created post.",
-            data,
-        });
-    } catch (e) {
-        console.error(e);
-        response.statusCode = 500;
-        response.body = JSON.stringify({
-            message: "Failed to create post.",
-            errorMsg: e.message,
-            errorStack: e.stack,
-        });
-    }
-
-    return response;
-};
-  const results = createEvent();
-  console.log("RESULTS", results);
   // putPromise.then(function(data) {
   //   console.log('Success'); 
   //   console.log(data);
@@ -109,21 +105,24 @@ app.get('/events', function(req, res) {
   //   console.log("EPIC FAIL");
   //   console.log(err);
   // });
-  // try {
-  //   const data = dynamodb.put(params).promise();
-  //   // this logs 'Promise { <pending> }'
-  //   console.log(data);
-  //   console.log("in try block");
-  // }
-  // catch (err) {
-  //   console.log(err);
-  //   console.log("in catch block");
-  // }
-  // const events = [
-  //   {id: 'abc', title: 'first event', location: 'big house', date: 'today', time: 'now'},
-  //   {id: 'def', title: 'second event', location: 'yo momas house', date: 'today', time: 'now'},
-  // ]
-  res = results;
+
+  try {
+    const data = dynamodb.put(params)
+    // this logs 'Promise { <pending> }'
+    console.log("DATA", data);
+    console.log("in try block");
+  }
+  catch (err) {
+    console.log(err);
+    console.log("in catch block");
+  }
+  const events = [
+    {id: 'abc', title: 'first event', location: 'big house', date: 'today', time: 'now'},
+    {id: 'def', title: 'second event', location: 'yo momas house', date: 'today', time: 'now'},
+  ]
+  res.json({
+    events
+  })
 });
 
 app.get('/events/*', function(req, res) {
