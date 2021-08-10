@@ -15,6 +15,18 @@
     },
     "s3Key": {
       "Type": "String"
+    },
+    "storageeventTableName": {
+      "Type": "String",
+      "Default": "storageeventTableName"
+    },
+    "storageeventTableArn": {
+      "Type": "String",
+      "Default": "storageeventTableArn"
+    },
+    "storageeventTableStreamArn": {
+      "Type": "String",
+      "Default": "storageeventTableStreamArn"
     }
   },
   "Conditions": {
@@ -47,12 +59,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "SAEventsFunction",
+            "EventFunction",
             {
               "Fn::Join": [
                 "",
                 [
-                  "SAEventsFunction",
+                  "EventFunction",
                   "-",
                   {
                     "Ref": "env"
@@ -69,6 +81,15 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
+            },
+            "STORAGE_EVENTTABLE_NAME": {
+              "Ref": "storageeventTableName"
+            },
+            "STORAGE_EVENTTABLE_ARN": {
+              "Ref": "storageeventTableArn"
+            },
+            "STORAGE_EVENTTABLE_STREAMARN": {
+              "Ref": "storageeventTableStreamArn"
             }
           }
         },
@@ -89,12 +110,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "socialappLambdaRole70a2e74a",
+            "socialappLambdaRole158965b5",
             {
               "Fn::Join": [
                 "",
                 [
-                  "socialappLambdaRole70a2e74a",
+                  "socialappLambdaRole158965b5",
                   "-",
                   {
                     "Ref": "env"
@@ -160,6 +181,58 @@
                   }
                 ]
               }
+            }
+          ]
+        }
+      }
+    },
+    "AmplifyResourcesPolicy": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:Delete*"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageeventTableArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageeventTableArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
             }
           ]
         }

@@ -1,5 +1,5 @@
 {
-  "name": "SAEventsFunction",
+  "name": "EventFunction",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

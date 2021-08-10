@@ -1,20 +1,21 @@
 {
   "auth": {
-    "socialappc0633e65": {
+    "socialapped4ba5da": {
       "service": "Cognito",
+      "serviceType": "imported",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false
     }
   },
   "api": {
-    "SAEventsAPI": {
+    "EventAPI": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "SAEventsFunction",
+          "resourceName": "EventFunction",
           "attributes": [
             "Name",
             "Arn"
@@ -24,10 +25,21 @@
     }
   },
   "function": {
-    "SAEventsFunction": {
+    "EventFunction": {
       "build": true,
       "providerPlugin": "awscloudformation",
-      "service": "Lambda"
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "eventTable",
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ]
+        }
+      ]
     }
   },
   "storage": {

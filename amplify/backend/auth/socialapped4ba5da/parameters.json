@@ -1,0 +1,6 @@
+{
+  "authSelections": "identityPoolAndUserPool",
+  "resourceName": "socialapped4ba5da",
+  "serviceType": "imported",
+  "region": "us-east-2"
+}

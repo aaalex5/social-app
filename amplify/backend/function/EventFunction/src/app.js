@@ -7,11 +7,36 @@ See the License for the specific language governing permissions and limitations 
 */
 
 
+/* Amplify Params - DO NOT EDIT
+	ENV
+	REGION
+	STORAGE_EVENTTABLE_ARN
+	STORAGE_EVENTTABLE_NAME
+	STORAGE_EVENTTABLE_STREAMARN
+Amplify Params - DO NOT EDIT */
 
-
+const AWS = require('aws-sdk')
 var express = require('express')
 var bodyParser = require('body-parser')
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+AWS.config.update({ region: process.env.TABLE_REGION });
+
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+
+let tableName = "eventTable";
+if(process.env.ENV && process.env.ENV !== "NONE") {
+  tableName = tableName + '-' + process.env.ENV;
+}
+
+const partitionKeyName = "id";
+const partitionKeyType = "S";
+const sortKeyName = "time";
+const sortKeyType = "S";
+const hasSortKey = sortKeyName !== "";
+const path = "/events";
+const UNAUTH = 'UNAUTH';
+const hashKeyPath = '/:' + partitionKeyName;
+const sortKeyPath = hasSortKey ? '/:' + sortKeyName : '';
 
 // declare a new express app
 var app = express()
@@ -31,15 +56,74 @@ app.use(function(req, res, next) {
  **********************/
 
 app.get('/events', function(req, res) {
-  const events = [
-    {id: 'abc', title: 'first event', location: 'big house', date: 'today', time: 'now'},
-    {id: 'def', title: 'second event', location: 'yo momas house', date: 'today', time: 'now'},
+  // const params = {
+  //   TableName : tableName,
+  //   /* Item properties will depend on your application concerns */
+  //   Item: {
+  //      id: '12345',
+  //      title: 'first event'
+  //   }
+  // }
+  // FOR TESTING
+  console.log("IN GET API THING"); 
+  const createEvent = async (event) => {
+    const response = { statusCode: 200 };
 
-  ]
-  res.json({
-    events
-  });
-  // res.json({success: 'get call succeed!', url: req.url});
+    try {
+        const params = {
+            TableName: tableName,
+            Item: {
+                id: '12345',
+                title: 'first event',
+                location: 'Big House',
+                date: 'today',
+                time: 'now'
+            }
+        };
+        const data = await dynamodb.put(params).promise();
+
+        console.log("DATA", data);
+
+        response.body = JSON.stringify({
+            message: "Successfully created post.",
+            data,
+        });
+    } catch (e) {
+        console.error(e);
+        response.statusCode = 500;
+        response.body = JSON.stringify({
+            message: "Failed to create post.",
+            errorMsg: e.message,
+            errorStack: e.stack,
+        });
+    }
+
+    return response;
+};
+  const results = createEvent();
+  console.log("RESULTS", results);
+  // putPromise.then(function(data) {
+  //   console.log('Success'); 
+  //   console.log(data);
+  // }).catch(function(err) {
+  //   console.log("EPIC FAIL");
+  //   console.log(err);
+  // });
+  // try {
+  //   const data = dynamodb.put(params).promise();
+  //   // this logs 'Promise { <pending> }'
+  //   console.log(data);
+  //   console.log("in try block");
+  // }
+  // catch (err) {
+  //   console.log(err);
+  //   console.log("in catch block");
+  // }
+  // const events = [
+  //   {id: 'abc', title: 'first event', location: 'big house', date: 'today', time: 'now'},
+  //   {id: 'def', title: 'second event', location: 'yo momas house', date: 'today', time: 'now'},
+  // ]
+  res = results;
 });
 
 app.get('/events/*', function(req, res) {

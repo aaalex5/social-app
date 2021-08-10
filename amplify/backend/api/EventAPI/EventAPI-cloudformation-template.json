@@ -8,15 +8,15 @@
         },
     
     
-          "functionSAEventsFunctionName": {
+          "functionEventFunctionName": {
             "Type": "String",
-            "Default": "functionSAEventsFunctionName"
+            "Default": "functionEventFunctionName"
           },
 
           
-          "functionSAEventsFunctionArn": {
+          "functionEventFunctionArn": {
             "Type": "String",
-            "Default": "functionSAEventsFunctionArn"
+            "Default": "functionEventFunctionArn"
           }
 
           
@@ -37,16 +37,16 @@
         
         
         
-      "SAEventsAPI": {
+      "EventAPI": {
         "Type": "AWS::ApiGateway::RestApi",
         "Properties": {
           "Description": "",
-          "Name": "SAEventsAPI",
+          "Name": "EventAPI",
           "Body": {
             "swagger": "2.0",
             "info": {
               "version": "2018-05-24T17:52:00Z",
-              "title": "SAEventsAPI"
+              "title": "EventAPI"
             },
             "host": {
                 "Fn::Join": [
@@ -168,7 +168,7 @@
                             
                             {
 
-                                "Ref": "functionSAEventsFunctionArn"
+                                "Ref": "functionEventFunctionArn"
                             },
                             
                             "/invocations"
@@ -267,7 +267,7 @@
                           
                           {
 
-                            "Ref": "functionSAEventsFunctionArn"
+                            "Ref": "functionEventFunctionArn"
                           },
                           
                           "/invocations"
@@ -324,12 +324,12 @@
       
         
 
-        "functionSAEventsFunctionPermissionSAEventsAPI": {
+        "functionEventFunctionPermissionEventAPI": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "FunctionName": 
                     {
-                        "Ref":  "functionSAEventsFunctionName"
+                        "Ref":  "functionEventFunctionName"
                     },
                     
                     "Action": "lambda:InvokeFunction",
@@ -348,7 +348,7 @@
                             },
                             ":",
                             {
-                                "Ref": "SAEventsAPI"
+                                "Ref": "EventAPI"
                             },
                             "/*/*/*"
                         ]
@@ -359,7 +359,7 @@
         
         
 
-      "DeploymentAPIGWSAEventsAPI": {
+      "DeploymentAPIGWEventAPI": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",
@@ -373,7 +373,7 @@
             ]
           },
           "RestApiId": {
-            "Ref": "SAEventsAPI"
+            "Ref": "EventAPI"
           }
         }
       }
@@ -381,15 +381,15 @@
     "Outputs": {
         "RootUrl": {
             "Description": "Root URL of the API gateway",
-            "Value": {"Fn::Join": ["", ["https://", {"Ref": "SAEventsAPI"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
+            "Value": {"Fn::Join": ["", ["https://", {"Ref": "EventAPI"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
         },
         "ApiName": {
           "Description": "API Friendly name",
-          "Value": "SAEventsAPI"
+          "Value": "EventAPI"
         },
         "ApiId": {
           "Description": "API ID (prefix of API URL)",
-          "Value": {"Ref": "SAEventsAPI"}
+          "Value": {"Ref": "EventAPI"}
         }
     }
   }

@@ -20,6 +20,8 @@ const EventHome = ({ navigation }) => {
     // Modal for Event Submit is default to false
     const [modalOpen, setModalOpen] = useState(false);
     const [events, setEvents] = useState([]);
+    const apiName = 'EventAPI';
+    const path = '/events';
 
 
     useEffect(() => {
@@ -29,7 +31,8 @@ const EventHome = ({ navigation }) => {
     const getEvent = async () => {
         try {
             console.log("in cdm function");
-            const data = await API.get('SAEventsAPI', '/events');
+            const data = await API.get(apiName, path);
+            console.log(data);
             setEvents(data.events);
             console.log("EVENTS", events);
 
@@ -38,20 +41,6 @@ const EventHome = ({ navigation }) => {
             console.log("Error on get", e)
         }
     }
-    // const apiName = 'SAEventsAPI';
-    // const path = '/events';
-    // API
-    //     .get(apiName, path)
-    //     .then(response => {
-    //         console.log("then block");
-    //         if (!response.ok) throw Error(response.statusText);
-    //         return response.json();
-    //     })
-    //     .catch(error => {
-    //         console.log("error block");
-    //         console.log(error);
-    //     });
-
     
     // When the user submits an event, send event to database
     const addEvent = (event) => {
