@@ -11,7 +11,8 @@ import {
     Modal,
 } from 'react-native';
 import Amplify, { API, withSSRContext } from "aws-amplify";
-import EventForm from './EventForm';
+import EventForm from './EventForm.js';
+import Card from './Card.js';
 import { concat } from "react-native-reanimated";
 import e from "cors";
 
@@ -61,6 +62,20 @@ const EventHome = ({ navigation }) => {
         console.log(event.date);
         setModalOpen(false);
     }
+    const displayEvents = () => {
+        return events.map((even) => {
+            return (
+                <View key={even.id}>
+                    <Card>
+                        <Text>Title: {even.title}</Text>
+                        <Text>Location: {even.location}</Text>
+                        <Text>Date: {even.date}</Text>
+                        <Text>Time: {even.time}</Text>
+                    </Card>
+                </View>
+            )
+        })
+    }
 
     return (
 
@@ -77,6 +92,7 @@ const EventHome = ({ navigation }) => {
             <EventForm addEvent={addEvent}/>
             </View>
         </Modal>
+    
 
         <MaterialIcons 
             name='add'
@@ -84,7 +100,7 @@ const EventHome = ({ navigation }) => {
             style={styles.modalToggle}
             onPress={() => setModalOpen(true)}
         />
-
+        {displayEvents()}
         </View>
         
     );
