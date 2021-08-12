@@ -5,18 +5,22 @@ import {
     Pressable,
     StyleSheet,
     Text,
-    FlatList,
+    RefreshControl,
     TextInput,
     View,
-    ImageBackground,
+    FlatList,
     Modal,
 } from 'react-native';
 import Amplify, { API, withSSRContext } from "aws-amplify";
 import EventForm from './EventForm.js';
 import Card from './Card.js';
-import { concat } from "react-native-reanimated";
+import { concat, withRepeat } from "react-native-reanimated";
 import e from "cors";
 
+// Necessary for refresh
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+}
 
 const EventHome = ({ navigation }) => {
     // Modal for Event Submit is default to false
@@ -28,7 +32,6 @@ const EventHome = ({ navigation }) => {
         headers: {},
         queryStringParameters: {}
     }
-
 
     useEffect(() => {
         getEvent()
@@ -64,10 +67,38 @@ const EventHome = ({ navigation }) => {
         setModalOpen(false);
     }
 
+    // For Slide to refresh
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => setRefreshing(false));
+      }, []);
+
     return (
 
         <View style ={styles.container}>
 
+            <FlatList 
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        title="Pull to refresh"
+                        tintColor="#fff"
+                        titleColor="#fff"
+                    />
+                }
+                data={events}
+                renderItem={({ item }) => (
+                    <Card>
+                        <Text>Title: {item.title}</Text>
+                        <Text>Location: {item.location}</Text>
+                        <Text>Date: {item.date}</Text>
+                        <Text>Time: {item.time}</Text>
+                    </Card>
+                )}
+            />
 
             <Modal visible={modalOpen} animationType='slide'>
                 <View style ={styles.modalContent}>
@@ -89,17 +120,6 @@ const EventHome = ({ navigation }) => {
                 onPress={() => setModalOpen(true)}
             />
 
-            <FlatList
-                data={events}
-                renderItem={({ item }) => (
-                    <Card>
-                        <Text>Title: {item.title}</Text>
-                        <Text>Location: {item.location}</Text>
-                        <Text>Date: {item.date}</Text>
-                        <Text>Time: {item.time}</Text>
-                    </Card>
-                )}
-            />
         </View>
         
     );
@@ -124,7 +144,7 @@ const styles = StyleSheet.create({
 
     modalToggle: {
         marginTop: 15,
-        marginBottom: 10,
+        marginBottom: 40,
         borderWidth: 1,
         color: "white",
         backgroundColor: '#003f5c',
@@ -139,6 +159,7 @@ const styles = StyleSheet.create({
         marginTop: 50,
         marginBottom: 0,
     }
+
 })
 
 export default EventHome;

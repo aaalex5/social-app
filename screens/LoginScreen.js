@@ -57,7 +57,14 @@ const LoginScreen = ( {navigation} ) => {
 
     return (
         <View style ={styles.container}>
-            <Text style={styles.logo}>Getogether</Text>
+
+            <Text style={styles.logo}>
+                <Text style={{color: '#fff'}}>
+                    Get
+                </Text>
+                together
+            </Text>
+
             <TextInput
                 style={styles.inputView}
                 autoCorrect={false}
