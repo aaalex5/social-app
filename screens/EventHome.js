@@ -5,6 +5,7 @@ import {
     Pressable,
     StyleSheet,
     Text,
+    FlatList,
     TextInput,
     View,
     ImageBackground,
@@ -62,45 +63,43 @@ const EventHome = ({ navigation }) => {
         console.log(event.date);
         setModalOpen(false);
     }
-    const displayEvents = () => {
-        return events.map((even) => {
-            return (
-                <View key={even.id}>
-                    <Card>
-                        <Text>Title: {even.title}</Text>
-                        <Text>Location: {even.location}</Text>
-                        <Text>Date: {even.date}</Text>
-                        <Text>Time: {even.time}</Text>
-                    </Card>
-                </View>
-            )
-        })
-    }
 
     return (
 
         <View style ={styles.container}>
 
-        <Modal visible={modalOpen} animationType='slide'>
-            <View style ={styles.modalContent}>
-                <MaterialIcons 
-                name='close'
-                size={24}
-                style={{ ...styles.modalToggle, ...styles.modalClose }}
-                onPress={() => setModalOpen(false)}
-                />
-            <EventForm addEvent={addEvent}/>
-            </View>
-        </Modal>
+
+            <Modal visible={modalOpen} animationType='slide'>
+                <View style ={styles.modalContent}>
+                    <MaterialIcons 
+                    name='close'
+                    size={24}
+                    style={{ ...styles.modalToggle, ...styles.modalClose }}
+                    onPress={() => setModalOpen(false)}
+                    />
+                <EventForm addEvent={addEvent}/>
+                </View>
+            </Modal>
     
 
-        <MaterialIcons 
-            name='add'
-            size={24}
-            style={styles.modalToggle}
-            onPress={() => setModalOpen(true)}
-        />
-        {displayEvents()}
+            <MaterialIcons 
+                name='add'
+                size={24}
+                style={styles.modalToggle}
+                onPress={() => setModalOpen(true)}
+            />
+
+            <FlatList
+                data={events}
+                renderItem={({ item }) => (
+                    <Card>
+                        <Text>Title: {item.title}</Text>
+                        <Text>Location: {item.location}</Text>
+                        <Text>Date: {item.date}</Text>
+                        <Text>Time: {item.time}</Text>
+                    </Card>
+                )}
+            />
         </View>
         
     );
@@ -124,6 +123,7 @@ const styles = StyleSheet.create({
     },
 
     modalToggle: {
+        marginTop: 15,
         marginBottom: 10,
         borderWidth: 1,
         color: "white",
