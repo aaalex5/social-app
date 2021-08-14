@@ -119,6 +119,14 @@ app.get('/events', function(req, res) {
   const events = [
     {id: 'abc', title: 'first event', location: 'big house', date: 'today', time: 'now'},
     {id: 'def', title: 'second event', location: 'yo momas house', date: 'today', time: 'now'},
+    {id: 'ghi', title: 'third event', location: 'yo momas house', date: 'today', time: 'now'},
+    {id: 'jkl', title: 'fourth event', location: 'yo momas house', date: 'today', time: 'now'},
+    {id: 'mno', title: 'fifth event', location: 'yo momas house', date: 'today', time: 'now'},
+    {id: 'pqr', title: 'sixth event', location: 'yo momas house', date: 'today', time: 'now'},
+    {id: 'stu', title: 'seventh event', location: 'yo momas house', date: 'today', time: 'now'},
+    {id: 'vwx', title: 'eighth event', location: 'yo momas house', date: 'today', time: 'now'},
+    {id: 'yza', title: 'ninth event', location: 'yo momas house', date: 'today', time: 'now'},
+    {id: 'bcd', title: 'tenth event', location: 'yo momas house', date: 'today', time: 'now'},
   ]
   res.json({
     events
