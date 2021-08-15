@@ -10,6 +10,7 @@ import {
     View,
     FlatList,
     Modal,
+    ActivityIndicator
 } from 'react-native';
 import Amplify, { API, withSSRContext } from "aws-amplify";
 import EventForm from './EventForm.js';
@@ -17,21 +18,23 @@ import Card from './Card.js';
 import { concat, withRepeat } from "react-native-reanimated";
 import e from "cors";
 
-// Necessary for refresh
-const wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-}
+
+
 
 const EventHome = ({ navigation }) => {
     // Modal for Event Submit is default to false
     const [modalOpen, setModalOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [events, setEvents] = useState([]);
     const apiName = 'EventAPI';
     const path = '/events';
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
     const myInit = {
         headers: {},
         queryStringParameters: {}
-    }
+}
 
     useEffect(() => {
         getEvent()
@@ -46,6 +49,7 @@ const EventHome = ({ navigation }) => {
                 console.log("DATA", data);
                 setEvents(data.events);
                 console.log("EVENTS", events);
+                setLoading(false);
             })
             .catch(err => {
                 console.log("Error on get", e);
@@ -73,10 +77,15 @@ const EventHome = ({ navigation }) => {
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
-      }, []);
+    }, []);
 
-    return (
 
+    // If loading = true, show loading indicator. Otherwise show home page
+    return loading ? (
+        <View style={{flex: 1, justifyContent: 'center'}}>
+            <ActivityIndicator size="large" />
+        </View>
+    ) : (
         <View style ={styles.container}>
 
             <FlatList 

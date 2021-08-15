@@ -79,43 +79,55 @@ app.get('/events', function(req, res) {
           time: 'now'
       }
   };
-
-  // var putPromise = dynamodb.put(params).promise();
-  // putPromise.then(function(data) {
+  
+  // This is for testing
+  // try {
+  //   const data = dynamodb.put(params)
   //   console.log("DATA", data);
-  //   res.body = JSON.stringify({
-  //     message: "Successfully created post.",
-  //     data,
-  //   });
-  // })
-  // .catch(function(err) {
-  //   console.log("ERROR", err);
-  //   res.statusCode = 500;
-  //   res.body = JSON.stringify({
-  //     message: "Failed to create post.",
-  //     errorMsg: e.message,
-  //     errorStack: e.stack,
-  //   });
-  // })
-
-  // putPromise.then(function(data) {
-  //   console.log('Success'); 
-  //   console.log(data);
-  // }).catch(function(err) {
-  //   console.log("EPIC FAIL");
+  //   console.log("in try block");
+  // }
+  // catch (err) {
   //   console.log(err);
-  // });
+  //   console.log("in catch block");
+  // }
+  const secondParams = {
+    TableName: tableName,
+  }
+  console.log("DECLARED 2 PARAMS");
+  // dynamodb.scan(secondParams, function (err, data) {
+  //   console.log("IN FIRST SCAN");
+  //   if (err) console.log(err)
+  //   else console.log("99 DATA", data)
+  // })
+  
+  // async function abstraction
+  async function listItems() {
+    var params = {
+      TableName: tableName,
+    }
+    try {
+      const data = await dynamodb.scan(params).promise()
+      console.log("109 data", data);
+      return data
+    } catch (err) {
+      return err
+    }
+  }
+  console.log("Defined async list items");
 
-  try {
-    const data = dynamodb.put(params)
-    // this logs 'Promise { <pending> }'
-    console.log("DATA", data);
-    console.log("in try block");
+  
+  // usage
+  exports.handler = async (event, context) => {
+    console.log("INSIDE EXPORTS MEME");
+    try {
+      const data = await listItems()
+      console.log("120 data", JSON.stringify(data))
+      return { body: JSON.stringify(data) }
+    } catch (err) {
+      return { error: err }
+    }
   }
-  catch (err) {
-    console.log(err);
-    console.log("in catch block");
-  }
+  console.log("EXports meme");
   const events = [
     {id: 'abc', title: 'first event', location: 'big house', date: 'today', time: 'now'},
     {id: 'def', title: 'second event', location: 'yo momas house', date: 'today', time: 'now'},
