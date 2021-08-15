@@ -82,10 +82,12 @@ const EventHome = ({ navigation }) => {
 
     // If loading = true, show loading indicator. Otherwise show home page
     return loading ? (
-        <View style={{flex: 1, justifyContent: 'center'}}>
+        <View style={styles.loading}>
             <ActivityIndicator size="large" />
         </View>
+
     ) : (
+
         <View style ={styles.container}>
 
             <FlatList 
@@ -167,6 +169,12 @@ const styles = StyleSheet.create({
         marginLeft: 300,
         marginTop: 50,
         marginBottom: 0,
+    },
+
+    loading: {
+        flex: 1, 
+        justifyContent: 'center',
+        backgroundColor: '#003f5c'
     }
 
 })
