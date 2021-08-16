@@ -53,6 +53,7 @@ const EventHome = ({ navigation }) => {
         API.get(apiName, path, getInit)
         .then(data => {
             console.log("DATA", data);
+            console.log("data items", data.Items);
             setEvents(data.Items);
             console.log("EVENTS", events);
             setLoading(false);
