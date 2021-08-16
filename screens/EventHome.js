@@ -12,11 +12,13 @@ import {
     Modal,
     ActivityIndicator
 } from 'react-native';
+import uuid from 'react-native-uuid';
 import Amplify, { API, withSSRContext } from "aws-amplify";
 import EventForm from './EventForm.js';
 import Card from './Card.js';
 import { concat, withRepeat } from "react-native-reanimated";
 import e from "cors";
+import { ref } from "yup";
 
 
 
@@ -26,48 +28,61 @@ const EventHome = ({ navigation }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [events, setEvents] = useState([]);
+    const [refreshCount, setRefreshCount] = useState(0);
     const apiName = 'EventAPI';
     const path = '/events';
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
     }
-    const myInit = {
+    const getInit = {
         headers: {},
         queryStringParameters: {}
-}
+    }
+    const putInit = {
+        body: {}
+    }
 
     useEffect(() => {
+        console.log("in use effect");
         getEvent()
-    }, [])
+    }, [refreshCount]);
 
     const getEvent = async () => {
-        //try {
-            myInit.queryStringParameters = {number: 10};
-            console.log("in cdm function");
-            API.get(apiName, path, myInit)
-            .then(data => {
-                console.log("DATA", data);
-                setEvents(data.events);
-                console.log("EVENTS", events);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.log("Error on get", e);
-            })
-            // const data = await API.get(apiName, path);
-            // console.log(data);
-            // setEvents(data.events);
-            // console.log("EVENTS", events);
-
-        //}
-        // catch (e) {
-        //     console.log("Error on get", e)
-        // }
+        getInit.queryStringParameters = {number: 10};
+        console.log("in cdm function");
+        API.get(apiName, path, getInit)
+        .then(data => {
+            console.log("DATA", data);
+            setEvents(data.Items);
+            console.log("EVENTS", events);
+            setLoading(false);
+        })
+        .catch(err => {
+            console.log("Error on get", e);
+        })
     }
     
     // When the user submits an event, send event to database
     const addEvent = (event) => {
+        const eventID = uuid.v1();
+        putInit.body = { 
+            id: eventID, 
+            time: event.time, 
+            date: event.date, 
+            location: event.location, 
+            title: event.title, 
+            description: event.description
+        }
+        API.put(apiName, path, putInit)
+        .then(response => {
+            //gotta figure out what to do here lol
+            console.log(response)
+        })
+        .catch(error => {
+            console.log(error.response);
+        })
         console.log(event.date);
+
         setModalOpen(false);
     }
 
@@ -75,9 +90,13 @@ const EventHome = ({ navigation }) => {
     const [refreshing, setRefreshing] = React.useState(false);
 
     const onRefresh = React.useCallback(() => {
+        console.log("IN REFRESH FUNC");
+        console.log("PRE COUNT", refreshCount);
+        setRefreshCount(refreshCount => refreshCount + 1);
+        console.log("POST COUNT", refreshCount);
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
-    }, []);
+    }, [refreshCount]);
 
 
     // If loading = true, show loading indicator. Otherwise show home page

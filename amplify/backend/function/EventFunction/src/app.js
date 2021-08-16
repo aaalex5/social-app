@@ -68,81 +68,23 @@ app.get('/events', function(req, res) {
   const query = req.query;
   console.log("QUERY", query);
   console.log("IN GET API THING"); 
-    // const response = { statusCode: 200 };
-  const params = {
-      TableName: tableName,
-      Item: {
-          id: '123456',
-          title: 'second event',
-          location: 'Big House',
-          date: 'today',
-          time: 'now'
-      }
-  };
-  
-  // This is for testing
-  // try {
-  //   const data = dynamodb.put(params)
-  //   console.log("DATA", data);
-  //   console.log("in try block");
-  // }
-  // catch (err) {
-  //   console.log(err);
-  //   console.log("in catch block");
-  // }
-  const secondParams = {
+  let getItemParams = {
     TableName: tableName,
   }
-  console.log("DECLARED 2 PARAMS");
-  // dynamodb.scan(secondParams, function (err, data) {
-  //   console.log("IN FIRST SCAN");
-  //   if (err) console.log(err)
-  //   else console.log("99 DATA", data)
-  // })
-  
-  // async function abstraction
-  async function listItems() {
-    var params = {
-      TableName: tableName,
+  dynamodb.scan(getItemParams,(err, data) => {
+    if(err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err.message});
+    } else {
+      if (data.Item) {
+        console.log("items", data.Item)
+        res.json(data.Item);
+      } else {
+        console.log("nitems", data);
+        res.json(data) ;
+      }
     }
-    try {
-      const data = await dynamodb.scan(params).promise()
-      console.log("109 data", data);
-      return data
-    } catch (err) {
-      return err
-    }
-  }
-  console.log("Defined async list items");
-
-  
-  // usage
-  exports.handler = async (event, context) => {
-    console.log("INSIDE EXPORTS MEME");
-    try {
-      const data = await listItems()
-      console.log("120 data", JSON.stringify(data))
-      return { body: JSON.stringify(data) }
-    } catch (err) {
-      return { error: err }
-    }
-  }
-  console.log("EXports meme");
-  const events = [
-    {id: 'abc', title: 'first event', location: 'big house', date: 'today', time: 'now'},
-    {id: 'def', title: 'second event', location: 'yo momas house', date: 'today', time: 'now'},
-    {id: 'ghi', title: 'third event', location: 'yo momas house', date: 'today', time: 'now'},
-    {id: 'jkl', title: 'fourth event', location: 'yo momas house', date: 'today', time: 'now'},
-    {id: 'mno', title: 'fifth event', location: 'yo momas house', date: 'today', time: 'now'},
-    {id: 'pqr', title: 'sixth event', location: 'yo momas house', date: 'today', time: 'now'},
-    {id: 'stu', title: 'seventh event', location: 'yo momas house', date: 'today', time: 'now'},
-    {id: 'vwx', title: 'eighth event', location: 'yo momas house', date: 'today', time: 'now'},
-    {id: 'yza', title: 'ninth event', location: 'yo momas house', date: 'today', time: 'now'},
-    {id: 'bcd', title: 'tenth event', location: 'yo momas house', date: 'today', time: 'now'},
-  ]
-  res.json({
-    events
-  })
+  });
 });
 
 app.get('/events/*', function(req, res) {
@@ -169,8 +111,21 @@ app.post('/events/*', function(req, res) {
 ****************************/
 
 app.put('/events', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+  console.log("in put API");
+  // generate unique id
+
+  let putItemParams = {
+    TableName: tableName,
+    Item: req.body
+  }
+  dynamodb.put(putItemParams, (err, data) => {
+    if(err) {
+      res.statusCode = 500;
+      res.json({error: err, url: req.url, body: req.body});
+    } else{
+      res.json({success: 'put call succeed!', url: req.url, data: data})
+    }
+  });
 });
 
 app.put('/events/*', function(req, res) {
