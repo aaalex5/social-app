@@ -6,7 +6,8 @@ import {
     Text,
     TextInput,
     View,
-    ImageBackground,
+    TouchableWithoutFeedback,
+    Keyboard
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 
@@ -56,47 +57,53 @@ const LoginScreen = ( {navigation} ) => {
     
 
     return (
-        <View style ={styles.container}>
+        <TouchableWithoutFeedback onPress={() => {
+            Keyboard.dismiss();
+        }}>
 
-            <Text style={styles.logo}>
-                <Text style={{color: '#fff'}}>
-                    Get
+            <View style ={styles.container}>
+
+                <Text style={styles.logo}>
+                    <Text style={{color: '#fff'}}>
+                        Get
+                    </Text>
+                    together
                 </Text>
-                together
-            </Text>
 
-            <TextInput
-                style={styles.inputView}
-                autoCorrect={false}
-                autoCapitalize='none'
-                placeholder="Username..."
-                placeholderTextColor = "#003f5c" 
-                onChangeText={username=>setUsername(username)}
-            />
-            <TextInput
-                style={styles.inputView}
-                autoCorrect={false}
-                autoCapitalize='none'
-                placeholder="Password.." 
-                placeholderTextColor = "#003f5c"
-                onChangeText={password=>setPassword(password)}
-            />
-            {message}
+                <TextInput
+                    style={styles.inputView}
+                    autoCorrect={false}
+                    autoCapitalize='none'
+                    placeholder="Username..."
+                    placeholderTextColor = "#003f5c" 
+                    onChangeText={username=>setUsername(username)}
+                />
+                <TextInput
+                    style={styles.inputView}
+                    autoCorrect={false}
+                    autoCapitalize='none'
+                    placeholder="Password.." 
+                    placeholderTextColor = "#003f5c"
+                    onChangeText={password=>setPassword(password)}
+                />
+                {message}
 
-            <Pressable
-                style = {styles.SubmitBtn}
-                onPress={handleSubmit}
-            >
-                <Text>Submit</Text>
+                <Pressable
+                    style = {styles.SubmitBtn}
+                    onPress={handleSubmit}
+                >
+                    <Text>Submit</Text>
+                    
+                </Pressable>
                 
-            </Pressable>
-            
-            <Pressable
-                onPress={handleSignUp}
-            >
-                <Text style={{color: 'white'}}>Don't have an account? Sign up here</Text>
-            </Pressable>
-        </View>
+                <Pressable
+                    onPress={handleSignUp}
+                >
+                    <Text style={{color: 'white'}}>Don't have an account? Sign up here</Text>
+                </Pressable>
+            </View>
+
+        </TouchableWithoutFeedback>
     );
 };
 
