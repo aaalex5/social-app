@@ -41,15 +41,9 @@ const EventHome = ({ navigation }) => {
     const putInit = {
         body: {}
     }
-
-    useEffect(() => {
-        console.log("in use effect");
-        getEvent()
-    }, [refreshCount]);
-
     const getEvent = async () => {
         getInit.queryStringParameters = {number: 10};
-        console.log("in cdm function");
+        console.log("in getEvent function");
         API.get(apiName, path, getInit)
         .then(data => {
             console.log("DATA", data);
@@ -62,7 +56,11 @@ const EventHome = ({ navigation }) => {
             console.log("Error on get", e);
         })
     }
-    
+
+    useEffect(() => {
+        console.log("in use effect");
+        getEvent();
+    }, [refreshCount]);    
     // When the user submits an event, send event to database
     const addEvent = (event) => {
         const eventID = uuid.v1();
@@ -86,7 +84,6 @@ const EventHome = ({ navigation }) => {
 
         setModalOpen(false);
     }
-
     // For Slide to refresh
     const [refreshing, setRefreshing] = React.useState(false);
 
