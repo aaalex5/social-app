@@ -6,7 +6,8 @@ import {
     TextInput,
     View,
     KeyboardAvoidingView,
-    ImageBackground,
+    TouchableWithoutFeedback,
+    Keyboard
 } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -22,97 +23,98 @@ export default function EventForm({ addEvent }) {
 
 
     return (
-        <KeyboardAvoidingView
+         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}
         >
+            <TouchableWithoutFeedback onPress={() => {
+                Keyboard.dismiss();
+            }}>
+                <View style={styles.container}>
 
-        <View style={styles.container}>
+                    <Text style={styles.logo}>New Post</Text>
 
-            <Text style={styles.logo}>New Post</Text>
-
-            <Formik
-                initialValues={{ title: '', location: '', date: '', time: '', description: ''}}
-                validationSchema={eventSchema}
-                onSubmit={(values, actions) => {
-                    // Sent the event information back out to the home page
-                    console.log(values);
-                    addEvent(values);
-                    //Reset the form after submitting
-                    actions.resetForm();
-                }}
-            >
-                {(props) => (
-                    <View>
-                    <TextInput
-                        style={styles.inputView}
-                        autoCorrect={false}
-                        autoCapitalize='none'
-                        placeholder='Event Title'
-                        placeholderTextColor="#003f5c"
-                        onChangeText={props.handleChange('title')}
-                        value={props.values.title}
-                    />
-                    <Text style={styles.error}>{ props.errors.title }</Text>
-
-                    <TextInput
-                        style={styles.inputView}
-                        autoCorrect={false}
-                        autoCapitalize='none'
-                        placeholder='Location'
-                        placeholderTextColor="#003f5c"
-                        onChangeText={props.handleChange('location')}
-                        value={props.values.location}
-                    />
-                    <Text style={styles.error}>{ props.errors.location }</Text>
-
-                    <TextInput
-                        style={styles.inputView}
-                        autoCorrect={false}
-                        autoCapitalize='none'
-                        placeholder='Date mm/dd/yyyy'
-                        placeholderTextColor="#003f5c"
-                        onChangeText={props.handleChange('date')}
-                        value={props.values.date}
-                    />
-                    <Text style={styles.error}>{ props.errors.date }</Text>
-
-                    <TextInput
-                        style={styles.inputView}
-                        autoCorrect={false}
-                        autoCapitalize='none'
-                        placeholder='Time'
-                        placeholderTextColor="#003f5c"
-                        onChangeText={props.handleChange('time')}
-                        value={props.values.time}
-                    />
-                    <Text style={styles.error}>{ props.errors.time }</Text>
-
-                    <TextInput
-                        style={styles.inputView}
-                        autoCorrect={false}
-                        autoCapitalize='none'
-                        placeholder='Description'
-                        placeholderTextColor="#003f5c"
-                        onChangeText={props.handleChange('description')}
-                        value={props.values.description}
-                    />
-                    <Text style={styles.error}>{ props.errors.description }</Text>
-                   
-                    <Pressable
-                        style={styles.PostBtn}
-                        onPress={props.handleSubmit}
+                    <Formik
+                        initialValues={{ title: '', location: '', date: '', time: '', description: ''}}
+                        validationSchema={eventSchema}
+                        onSubmit={(values, actions) => {
+                            // Sent the event information back out to the home page
+                            console.log(values);
+                            addEvent(values);
+                            //Reset the form after submitting
+                            actions.resetForm();
+                        }}
                     >
-                        <Text>Post</Text>
-                    </Pressable>
-                </View>
-                
-                )}
-            </Formik>
-        </View>
-        </KeyboardAvoidingView>
-    )
+                        {(props) => (
+                            <View>
+                                <TextInput
+                                    style={styles.inputView}
+                                    autoCorrect={false}
+                                    autoCapitalize='none'
+                                    placeholder='Event Title'
+                                    placeholderTextColor="#003f5c"
+                                    onChangeText={props.handleChange('title')}
+                                    value={props.values.title}
+                                />
+                                <Text style={styles.error}>{ props.errors.title }</Text>
 
+                                <TextInput
+                                    style={styles.inputView}
+                                    autoCorrect={false}
+                                    autoCapitalize='none'
+                                    placeholder='Location'
+                                    placeholderTextColor="#003f5c"
+                                    onChangeText={props.handleChange('location')}
+                                    value={props.values.location}
+                                />
+                                <Text style={styles.error}>{ props.errors.location }</Text>
+
+                                <TextInput
+                                    style={styles.inputView}
+                                    autoCorrect={false}
+                                    autoCapitalize='none'
+                                    placeholder='Date mm/dd/yyyy'
+                                    placeholderTextColor="#003f5c"
+                                    onChangeText={props.handleChange('date')}
+                                    value={props.values.date}
+                                />
+                                <Text style={styles.error}>{ props.errors.date }</Text>
+
+                                <TextInput
+                                    style={styles.inputView}
+                                    autoCorrect={false}
+                                    autoCapitalize='none'
+                                    placeholder='Time'
+                                    placeholderTextColor="#003f5c"
+                                    onChangeText={props.handleChange('time')}
+                                    value={props.values.time}
+                                />
+                                <Text style={styles.error}>{ props.errors.time }</Text>
+
+                                <TextInput
+                                    style={styles.inputView}
+                                    autoCorrect={false}
+                                    autoCapitalize='none'
+                                    placeholder='Description'
+                                    placeholderTextColor="#003f5c"
+                                    onChangeText={props.handleChange('description')}
+                                    value={props.values.description}
+                                />
+                                <Text style={styles.error}>{ props.errors.description }</Text>
+                            
+                                <Pressable
+                                    style={styles.PostBtn}
+                                    onPress={props.handleSubmit}
+                                >
+                                    <Text>Post</Text>
+                                </Pressable>
+                            </View>    
+                        )}
+                    </Formik>
+                </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>  
+    )
 }
 
 const styles = StyleSheet.create({

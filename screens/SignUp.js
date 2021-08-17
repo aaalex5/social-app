@@ -6,7 +6,8 @@ import {
     Text,
     TextInput,
     View,
-    ImageBackground,
+    Keyboard,
+    TouchableWithoutFeedback
 } from 'react-native';
 import { Formik } from 'formik';
 import { Auth } from 'aws-amplify';
@@ -59,59 +60,70 @@ const SignUp = ( { navigation }) => {
     */
 
     return (
-        <View style={styles.container}>
+        <TouchableWithoutFeedback onPress={() => {
+            Keyboard.dismiss();
+        }}>
 
-            <Text style={styles.logo}>Getogether</Text>
+            <View style={styles.container}>
 
-            <Formik
-                initialValues={{ username: '', password: ''}}
+                <Text style={styles.logo}>
+                    <Text style={{color: '#fff'}}>
+                        Get
+                    </Text>
+                    together
+                </Text>
 
-                onSubmit={(values, actions) => {
-                    // db query for unique username
-                    console.log(values);
-                    //Reset the form after submitting
-                    actions.resetForm();
-                    signUpAWS(values.username, values.password);
-                    //Add the query to database to check if username exists and display error message
+                <Formik
+                    initialValues={{ username: '', password: ''}}
 
-                }}
-            >
-                {(props) => (
-                    <View>
-                        <TextInput
-                            style={styles.inputView}
-                            autoCorrect={false}
-                            autoCapitalize='none'
-                            placeholder='Username...'
-                            placeholderTextColor="#003f5c"
-                            onChangeText={props.handleChange('username')}
-                            value={props.values.username}
-                        />
-                        <TextInput
-                            style={styles.inputView}
-                            autoCorrect={false}
-                            autoCapitalize='none'
-                            placeholder='Password...'
-                            placeholderTextColor="#003f5c"
-                            onChangeText={props.handleChange('password')}
-                            value={props.values.password}
-                        />
-                        {/* conditional error message */}
-                        {message}
-                       
+                    onSubmit={(values, actions) => {
+                        // db query for unique username
+                        console.log(values);
+                        //Reset the form after submitting
+                        actions.resetForm();
+                        signUpAWS(values.username, values.password);
+                        //Add the query to database to check if username exists and display error message
 
-                        <Pressable
-                            style={styles.SignUpBtn}
-                            onPress={props.handleSubmit}
-                        >
-                            <Text>Sign Up</Text>
-                        </Pressable>
+                    }}
+                >
+                    {(props) => (
+                        <View>
+                            <TextInput
+                                style={styles.inputView}
+                                autoCorrect={false}
+                                autoCapitalize='none'
+                                placeholder='Username...'
+                                placeholderTextColor="#003f5c"
+                                onChangeText={props.handleChange('username')}
+                                value={props.values.username}
+                            />
+                            <TextInput
+                                style={styles.inputView}
+                                autoCorrect={false}
+                                autoCapitalize='none'
+                                placeholder='Password...'
+                                placeholderTextColor="#003f5c"
+                                onChangeText={props.handleChange('password')}
+                                value={props.values.password}
+                            />
+                            {/* conditional error message */}
+                            {message}
+                        
 
-                    </View>
-                )}
-            </Formik>
+                            <Pressable
+                                style={styles.SignUpBtn}
+                                onPress={props.handleSubmit}
+                            >
+                                <Text>Sign Up</Text>
+                            </Pressable>
 
-        </View>
+                        </View>
+                    )}
+                </Formik>
+
+            </View>
+
+        </TouchableWithoutFeedback>
     )
 }
 
