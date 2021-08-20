@@ -16,6 +16,10 @@
         "EventFunction": {
           "deploymentBucketName": "amplify-socialapp-dev-160559-deployment",
           "s3Key": "amplify-builds/EventFunction-544c6549755479767067-build.zip"
+        },
+        "UserToDDb": {
+          "deploymentBucketName": "amplify-socialapp-dev-160559-deployment",
+          "s3Key": "amplify-builds/UserToDDb-5854546d425349514439-build.zip"
         }
       },
       "auth": {
