@@ -6,7 +6,7 @@ import {
     StyleSheet,
     Text,
     RefreshControl,
-    TextInput,
+    TouchableOpacity,
     View,
     FlatList,
     Modal,
@@ -19,8 +19,6 @@ import Card from './Card.js';
 import { concat, withRepeat } from "react-native-reanimated";
 import e from "cors";
 import { ref } from "yup";
-
-
 
 
 const EventHome = ({ navigation }) => {
@@ -117,14 +115,17 @@ const EventHome = ({ navigation }) => {
                         titleColor="#fff"
                     />
                 }
+
                 data={events}
                 renderItem={({ item }) => (
-                    <Card>
-                        <Text>Title: {item.title}</Text>
-                        <Text>Location: {item.location}</Text>
-                        <Text>Date: {item.date}</Text>
-                        <Text>Time: {item.time}</Text>
-                    </Card>
+                    <TouchableOpacity onPress={() => navigation.navigate('EventDetails', item)}>
+                        <Card>
+                            <Text>Title: {item.title}</Text>
+                            <Text>Location: {item.location}</Text>
+                            <Text>Date: {item.date}</Text>
+                            <Text>Time: {item.time}</Text>
+                        </Card>
+                    </TouchableOpacity>
                 )}
             />
 
