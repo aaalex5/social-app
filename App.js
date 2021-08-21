@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import LoginScreen from "./screens/LoginScreen.js";
 import LoginNavigation from "./navigation/LoginNavigation.js";
+import TabNavigation from "./navigation/TabNavigation.js";
 import Amplify, { API, Auth } from 'aws-amplify';
 import awsconfig from './src/aws-exports';
 
