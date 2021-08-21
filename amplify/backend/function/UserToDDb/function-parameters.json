@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "auth": {
+      "socialapped4ba5da": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "storage": {
+      "eventTable": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

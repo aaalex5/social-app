@@ -47,7 +47,7 @@ const EventHome = ({ navigation }) => {
             console.log("DATA", data);
             console.log("data items", data.Items);
             setEvents(data.Items);
-            console.log("EVENTS", events);
+            //console.log("EVENTS", events);
             setLoading(false);
         })
         .catch(err => {
