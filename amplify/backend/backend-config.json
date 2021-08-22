@@ -1,6 +1,6 @@
 {
   "auth": {
-    "socialapped4ba5da": {
+    "socialapp57ee0967": {
       "service": "Cognito",
       "serviceType": "imported",
       "providerPlugin": "awscloudformation",
@@ -41,14 +41,14 @@
         }
       ]
     },
-    "UserToDDb": {
+    "CogntioToDB": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
         {
           "category": "auth",
-          "resourceName": "socialapped4ba5da",
+          "resourceName": "socialapp57ee0967",
           "attributes": [
             "UserPoolId"
           ]
@@ -69,6 +69,12 @@
     "eventTable": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
+    },
+    "UserTable": {
+      "service": "DynamoDB",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
     }
   }
 }

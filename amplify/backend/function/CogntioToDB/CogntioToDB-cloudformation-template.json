@@ -16,9 +16,9 @@
     "s3Key": {
       "Type": "String"
     },
-    "authsocialapped4ba5daUserPoolId": {
+    "authsocialapp57ee0967UserPoolId": {
       "Type": "String",
-      "Default": "authsocialapped4ba5daUserPoolId"
+      "Default": "authsocialapp57ee0967UserPoolId"
     },
     "storageeventTableName": {
       "Type": "String",
@@ -63,12 +63,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "UserToDDb",
+            "CogntioToDB",
             {
               "Fn::Join": [
                 "",
                 [
-                  "UserToDDb",
+                  "CogntioToDB",
                   "-",
                   {
                     "Ref": "env"
@@ -86,8 +86,8 @@
             "REGION": {
               "Ref": "AWS::Region"
             },
-            "AUTH_SOCIALAPPED4BA5DA_USERPOOLID": {
-              "Ref": "authsocialapped4ba5daUserPoolId"
+            "AUTH_SOCIALAPP57EE0967_USERPOOLID": {
+              "Ref": "authsocialapp57ee0967UserPoolId"
             },
             "STORAGE_EVENTTABLE_NAME": {
               "Ref": "storageeventTableName"
@@ -117,12 +117,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "socialappLambdaRole61f479bf",
+            "socialappLambdaRolea74ccf79",
             {
               "Fn::Join": [
                 "",
                 [
-                  "socialappLambdaRole61f479bf",
+                  "socialappLambdaRolea74ccf79",
                   "-",
                   {
                     "Ref": "env"
@@ -307,7 +307,7 @@
                         "Ref": "AWS::AccountId"
                       },
                       ":userpool/",
-                      "us-east-2_jmTM2whVk"
+                      "us-east-2_LKd1FRZ9d"
                     ]
                   ]
                 }

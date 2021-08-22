@@ -17,24 +17,33 @@
           "deploymentBucketName": "amplify-socialapp-dev-160559-deployment",
           "s3Key": "amplify-builds/EventFunction-544c6549755479767067-build.zip"
         },
-        "UserToDDb": {
+        "CogntioToDB": {
           "deploymentBucketName": "amplify-socialapp-dev-160559-deployment",
-          "s3Key": "amplify-builds/UserToDDb-5854546d425349514439-build.zip"
+          "s3Key": "amplify-builds/CogntioToDB-4e563065613336316153-build.zip"
         }
       },
       "auth": {
-        "socialapped4ba5da": {
-          "userPoolId": "us-east-2_jmTM2whVk",
-          "userPoolName": "SocialApp UserPool",
-          "webClientId": "k7jtoieutlbans46tpivm3t7",
-          "nativeClientId": "k7jtoieutlbans46tpivm3t7",
-          "identityPoolId": "us-east-2:3ef62bfb-b9a1-494d-ad53-9aad50319e9b",
-          "identityPoolName": "SocialApp IDPool",
+        "socialapp57ee0967": {
+          "userPoolId": "us-east-2_LKd1FRZ9d",
+          "userPoolName": "SocialApp EmailUserPool",
+          "webClientId": "7ovmack7h28g96r8q0e3ivi3gq",
+          "nativeClientId": "7ovmack7h28g96r8q0e3ivi3gq",
+          "identityPoolId": "us-east-2:8c2e8414-0600-4897-9c1f-6d09d21e3c3f",
+          "identityPoolName": "SocialAppEmail ID Pool",
           "allowUnauthenticatedIdentities": false,
-          "authRoleArn": "arn:aws:iam::747736213360:role/Cognito_SocialAppIDPoolAuth_Role",
-          "authRoleName": "Cognito_SocialAppIDPoolAuth_Role",
-          "unauthRoleArn": "arn:aws:iam::747736213360:role/Cognito_SocialAppIDPoolUnauth_Role",
-          "unauthRoleName": "Cognito_SocialAppIDPoolUnauth_Role"
+          "authRoleArn": "arn:aws:iam::747736213360:role/Cognito_SocialAppEmailIDPoolAuth_Role",
+          "authRoleName": "Cognito_SocialAppEmailIDPoolAuth_Role",
+          "unauthRoleArn": "arn:aws:iam::747736213360:role/Cognito_SocialAppEmailIDPoolUnauth_Role",
+          "unauthRoleName": "Cognito_SocialAppEmailIDPoolUnauth_Role"
+        }
+      },
+      "storage": {
+        "UserTable": {
+          "tableName": "UserTable",
+          "region": "us-east-2",
+          "arn": "arn:aws:dynamodb:us-east-2:747736213360:table/UserTable",
+          "partitionKeyName": "cognitoUserID",
+          "partitionKeyType": "S"
         }
       }
     }

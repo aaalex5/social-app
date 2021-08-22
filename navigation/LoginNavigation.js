@@ -6,6 +6,7 @@ import SignUp from "../screens/SignUp.js";
 import EventHome from "../screens/EventHome.js";
 import Profile from "../screens/Profile.js";
 import EventDetails from "../screens/EventDetails";
+import Confirmation from "../screens/Confirmation.js";
 
 const Stack = createStackNavigator();
 // adds screens so they can be navigated to
@@ -47,6 +48,14 @@ const LoginNavigation = (props) => {
                     component={EventDetails}
                     options={{
                         title: 'Event Details'
+                    }}
+                />
+                <Stack.Screen
+                    name={"Confirmation"}
+                    component={Confirmation}
+                    params={{ username: "", userID: "" }}
+                    options={{
+                        title: 'Confirmation'
                     }}
                 />
             </Stack.Navigator>

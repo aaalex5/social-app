@@ -18,7 +18,8 @@ import EventForm from './EventForm.js';
 import Card from './Card.js';
 import { concat, withRepeat } from "react-native-reanimated";
 import e from "cors";
-import { ref } from "yup";
+import '../global.js';
+import { Auth } from 'aws-amplify';
 
 
 const EventHome = ({ navigation }) => {
@@ -39,6 +40,14 @@ const EventHome = ({ navigation }) => {
     const putInit = {
         body: {}
     }
+
+    async function userGrab() {
+        let userID = await Auth.currentUserInfo();
+        global.userID = userID.id;
+        console.log("why twice", global.userID);
+    }
+    userGrab();
+
     const getEvent = async () => {
         getInit.queryStringParameters = {number: 10};
         console.log("in getEvent function");

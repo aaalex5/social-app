@@ -26,16 +26,20 @@ const SignUp = ( { navigation }) => {
     the user information will be placed into the AWS pool and the user will be navigated to the Event/Home page.
     */
 
-    async function signUpAWS(username, password) {
+    async function signUpAWS(username, password, email) {
         try {
             const { user } = await Auth.signUp({
                 username,
                 password,
+                attributes: {
+                    email,
+                }
             });
-            console.log(user);
-            console.log(username, password);
+            console.log("OI OI", email, username, password);
+            navigation.navigate('Confirmation', {
+                username: username
+            });
             // send to event screen
-            navigation.navigate('EventHome');
         }
         catch (error) {
             console.log('error signing up:', error);
@@ -44,7 +48,6 @@ const SignUp = ( { navigation }) => {
             setBadSignup(1);
         }
     }
-
 
     const [badSignup, setBadSignup] = useState(0);
     let message = <Text></Text>;
@@ -74,14 +77,14 @@ const SignUp = ( { navigation }) => {
                 </Text>
 
                 <Formik
-                    initialValues={{ username: '', password: ''}}
+                    initialValues={{ username: '', password: '', email: ''}}
 
                     onSubmit={(values, actions) => {
                         // db query for unique username
                         console.log(values);
                         //Reset the form after submitting
                         actions.resetForm();
-                        signUpAWS(values.username, values.password);
+                        signUpAWS(values.username, values.password, values.email);
                         //Add the query to database to check if username exists and display error message
 
                     }}
@@ -105,6 +108,15 @@ const SignUp = ( { navigation }) => {
                                 placeholderTextColor="#003f5c"
                                 onChangeText={props.handleChange('password')}
                                 value={props.values.password}
+                            />
+                            <TextInput
+                                style={styles.inputView}
+                                autoCorrect={false}
+                                autoCapitalize='none'
+                                placeholder='Email...'
+                                placeholderTextColor="#003f5c"
+                                onChangeText={props.handleChange('email')}
+                                value={props.values.email}
                             />
                             {/* conditional error message */}
                             {message}
