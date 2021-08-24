@@ -24,6 +24,13 @@ const LoginScreen = ( {navigation} ) => {
 
     const handleSubmit = () => {
         signIn();
+        // reset vars after submit
+        setUsername("");
+        setPassword("");
+        setErrorMessage("");
+        this.usernameInput.clear();
+        this.passwordInput.clear();
+        console.log("RIGHT HERE", username);
         console.log(username);
     };
 
@@ -71,6 +78,7 @@ const LoginScreen = ( {navigation} ) => {
                 </Text>
 
                 <TextInput
+                    ref={input => { this.usernameInput = input }}
                     style={styles.inputView}
                     autoCorrect={false}
                     autoCapitalize='none'
@@ -79,6 +87,7 @@ const LoginScreen = ( {navigation} ) => {
                     onChangeText={username=>setUsername(username)}
                 />
                 <TextInput
+                    ref={input => { this.passwordInput = input }}
                     style={styles.inputView}
                     autoCorrect={false}
                     autoCapitalize='none'

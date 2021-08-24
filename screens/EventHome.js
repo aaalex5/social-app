@@ -19,6 +19,7 @@ import Card from './Card.js';
 import { concat, withRepeat } from "react-native-reanimated";
 import e from "cors";
 import '../global.js';
+import SignOut from '../components/SignOut.js'
 import { Auth } from 'aws-amplify';
 
 
@@ -42,11 +43,29 @@ const EventHome = ({ navigation }) => {
     }
 
     async function userGrab() {
-        let userID = await Auth.currentUserInfo();
-        global.userID = userID.id;
-        console.log("why twice", global.userID);
+        Auth.currentUserInfo()
+        .then(data => {
+            global.userId = data.attributes.sub;
+            console.log("GLOBAL ID", global.userId);
+        })
+        .catch(err => {
+            console.log("Error on Amplify User", e);
+        })
+        //global.userID = userID.id;
+        //console.log("why twice", global.userID);
     }
     userGrab();
+    async function signOutFunction() {
+        try {
+            console.log("SIGNING OUT");
+            await Auth.signOut();
+            navigation.navigate('LoginScreen');
+            
+            global.userId = "";
+        } catch (error) {
+            console.log('error signing out: ', error);
+        }
+    }
 
     const getEvent = async () => {
         getInit.queryStringParameters = {number: 10};
@@ -71,13 +90,15 @@ const EventHome = ({ navigation }) => {
     // When the user submits an event, send event to database
     const addEvent = (event) => {
         const eventID = uuid.v1();
+        console.log("global user id right here bastard", global.userId);
         putInit.body = { 
             id: eventID, 
             time: event.time, 
             date: event.date, 
             location: event.location, 
             title: event.title, 
-            description: event.description
+            description: event.description,
+            ownerID: global.userId,
         }
         API.put(apiName, path, putInit)
         .then(response => {
@@ -157,6 +178,14 @@ const EventHome = ({ navigation }) => {
                 style={styles.modalToggle}
                 onPress={() => setModalOpen(true)}
             />
+            <View>
+                <Pressable
+                    onPress={() => signOutFunction()}
+                >
+                    <Text>Sign Out</Text>
+                </Pressable>
+
+            </View>
 
         </View>
         
