@@ -163,6 +163,7 @@ app.delete('/events', function(req, res) {
 });
 
 app.delete('/events/*', function(req, res) {
+  
   // Add your code here
   res.json({success: 'delete call succeed!', url: req.url});
 });
