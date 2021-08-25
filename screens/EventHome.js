@@ -19,7 +19,6 @@ import Card from './Card.js';
 import { concat, withRepeat } from "react-native-reanimated";
 import e from "cors";
 import '../global.js';
-import SignOut from '../components/SignOut.js'
 import { Auth } from 'aws-amplify';
 
 
@@ -148,7 +147,7 @@ const EventHome = ({ navigation }) => {
 
                 data={events}
                 renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => navigation.navigate('EventDetails', item)}>
+                    <TouchableOpacity onPress={() => navigation.navigate('EventDetails', {eventID: item.id})}>
                         <Card>
                             <Text>Title: {item.title}</Text>
                             <Text>Location: {item.location}</Text>

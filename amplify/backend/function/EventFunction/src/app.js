@@ -87,9 +87,30 @@ app.get('/events', function(req, res) {
   });
 });
 
-app.get('/events/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
+app.get('/events/event', function(req, res) {
+  let eventID = req.query.eventID;
+  console.log("EVENT ID", eventID);
+  let getItemParams = {
+    TableName: tableName,
+    Key: {
+      'id': {N: eventID}
+    },
+  };
+  dynamodb.getItem(getItemParams,(err, data) => {
+    if(err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err.message});
+    } else {
+      if (data.Item) {
+        console.log("items", data.Item)
+        res.json(data.Item);
+      } else {
+        console.log("nitems", data);
+        res.json(data) ;
+      }
+    }
+  });
+
 });
 
 /****************************
@@ -112,7 +133,6 @@ app.post('/events/*', function(req, res) {
 
 app.put('/events', function(req, res) {
   console.log("in put API");
-  // generate unique id
 
   let putItemParams = {
     TableName: tableName,
