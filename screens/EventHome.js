@@ -13,7 +13,7 @@ import {
     ActivityIndicator
 } from 'react-native';
 import uuid from 'react-native-uuid';
-import Amplify, { API, withSSRContext } from "aws-amplify";
+import Amplify, { API } from "aws-amplify";
 import EventForm from './EventForm.js';
 import Card from './Card.js';
 import { concat, withRepeat } from "react-native-reanimated";
@@ -33,6 +33,7 @@ const EventHome = ({ navigation }) => {
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
     }
+    // params for DB
     const getInit = {
         headers: {},
         queryStringParameters: {}
@@ -40,18 +41,16 @@ const EventHome = ({ navigation }) => {
     const putInit = {
         body: {}
     }
-
+    // takes currentuserID from amplify/cognito
     async function userGrab() {
         Auth.currentUserInfo()
         .then(data => {
-            global.userId = data.attributes.sub;
-            console.log("GLOBAL ID", global.userId);
+            global.userID = data.attributes.sub;
+            console.log("GLOBAL ID", global.userID);
         })
         .catch(err => {
             console.log("Error on Amplify User", e);
         })
-        //global.userID = userID.id;
-        //console.log("why twice", global.userID);
     }
     userGrab();
     async function signOutFunction() {
@@ -60,7 +59,7 @@ const EventHome = ({ navigation }) => {
             await Auth.signOut();
             navigation.navigate('LoginScreen');
             
-            global.userId = "";
+            global.userID = "";
         } catch (error) {
             console.log('error signing out: ', error);
         }
@@ -74,22 +73,24 @@ const EventHome = ({ navigation }) => {
             console.log("DATA", data);
             console.log("data items", data.Items);
             setEvents(data.Items);
-            //console.log("EVENTS", events);
             setLoading(false);
         })
         .catch(err => {
             console.log("Error on get", e);
         })
     }
-
+    
+    /*
+    useEffect is dependent on refreshcount so the pull down to refresh triggers
+    the api to pull events from the DB
+    */
     useEffect(() => {
         console.log("in use effect");
         getEvent();
     }, [refreshCount]);    
-    // When the user submits an event, send event to database
+
     const addEvent = (event) => {
         const eventID = uuid.v1();
-        console.log("global user id right here bastard", global.userId);
         putInit.body = { 
             id: eventID, 
             time: event.time, 
@@ -97,7 +98,7 @@ const EventHome = ({ navigation }) => {
             location: event.location, 
             title: event.title, 
             description: event.description,
-            ownerID: global.userId,
+            ownerID: global.userID,
         }
         API.put(apiName, path, putInit)
         .then(response => {
@@ -147,7 +148,7 @@ const EventHome = ({ navigation }) => {
 
                 data={events}
                 renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => navigation.navigate('EventDetails', {eventID: item.id})}>
+                    <TouchableOpacity onPress={() => navigation.navigate('EventDetails', {eventID: item.id, time: item.time})}>
                         <Card>
                             <Text>Title: {item.title}</Text>
                             <Text>Location: {item.location}</Text>
@@ -169,6 +170,14 @@ const EventHome = ({ navigation }) => {
                 <EventForm addEvent={addEvent}/>
                 </View>
             </Modal>
+            {/* TEMP */}
+            <View>
+                <Pressable
+                    onPress={() => navigation.navigate('Profile')}
+                >
+                    <Text>PROFLE</Text>
+                </Pressable>
+            </View>
     
 
             <MaterialIcons 

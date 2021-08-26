@@ -46,7 +46,7 @@ const LoginNavigation = (props) => {
                 <Stack.Screen
                     name={"EventDetails"}
                     component={EventDetails}
-                    params={{eventID: ""}}
+                    params={{eventID: "", time: ""}}
                     options={{
                         title: 'Event Details'
                     }}

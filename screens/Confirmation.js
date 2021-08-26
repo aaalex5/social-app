@@ -16,6 +16,7 @@ import '../global.js'
 const Confirmation = ({route, navigation}) => {
     const [authCode, setAuthCode] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    // gets variable from passed in data in the navigation call on other screen
     const { username } = route.params;
     console.log("User", username);
     async function confirmSignUp() {

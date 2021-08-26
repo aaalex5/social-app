@@ -56,18 +56,7 @@ app.use(function(req, res, next) {
  **********************/
 
 app.get('/events', function(req, res) {
-  // const params = {
-  //   TableName : tableName,
-  //   /* Item properties will depend on your application concerns */
-  //   Item: {
-  //      id: '12345',
-  //      title: 'first event'
-  //   }
-  // }
-  // FOR TESTING
   const query = req.query;
-  console.log("QUERY", query);
-  console.log("IN GET API THING"); 
   let getItemParams = {
     TableName: tableName,
   }
@@ -89,14 +78,12 @@ app.get('/events', function(req, res) {
 
 app.get('/events/event', function(req, res) {
   let eventID = req.query.eventID;
-  console.log("EVENT ID", eventID);
-  let getItemParams = {
+  let time = req.query.time;
+  var params = { 
     TableName: tableName,
-    Key: {
-      'id': {N: eventID}
-    },
-  };
-  dynamodb.getItem(getItemParams,(err, data) => {
+    Key: { "id": eventID, "time": time }
+  }
+  dynamodb.get(params,(err, data) => {
     if(err) {
       res.statusCode = 500;
       res.json({error: 'Could not load items: ' + err.message});
@@ -132,8 +119,6 @@ app.post('/events/*', function(req, res) {
 ****************************/
 
 app.put('/events', function(req, res) {
-  console.log("in put API");
-
   let putItemParams = {
     TableName: tableName,
     Item: req.body
@@ -158,8 +143,20 @@ app.put('/events/*', function(req, res) {
 ****************************/
 
 app.delete('/events', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
+  let eventID = req.query.eventID;
+  let time = req.query.time;
+  var params = {
+    TableName: tableName,
+    Key: {"id": eventID, "time": time },
+  }
+  dynamodb.delete(params, (err, data)=> {
+    if(err) {
+      res.statusCode = 500;
+      res.json({error: err, url: req.url});
+    } else {
+      res.json({url: req.url, data: data});
+    }
+  });
 });
 
 app.delete('/events/*', function(req, res) {
@@ -168,6 +165,34 @@ app.delete('/events/*', function(req, res) {
   res.json({success: 'delete call succeed!', url: req.url});
 });
 
+
+
+
+/*************************************************************************************
+ *                                      PROFILE API
+ ************************************************************************************/
+// app.get('/profile', function(req, res) {
+//   const userID = req.query.userID;
+//   let params = {
+//     TableName: "UserTable",
+//     Key: {"cognitoUserID": userID},
+//   }
+//   dynamodb.get(params,(err, data) => {
+//     if(err) {
+//       res.statusCode = 500;
+//       res.json({error: 'Could not load items: ' + err.message});
+//     } else {
+//       if (data.Item) {
+//         console.log("items", data.Item)
+//         res.json(data.Item);
+//       } else {
+//         console.log("nitems", data);
+//         res.json(data) ;
+//       }
+//     }
+//   });
+// });
+ 
 app.listen(3000, function() {
     console.log("App started")
 });

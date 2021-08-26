@@ -1,47 +1,60 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     StyleSheet,
     View,
     Text,
     Pressable,
-    Button
 } from 'react-native';
+import Amplify, { API } from "aws-amplify";
+import Card from './Card.js';
 import '../global.js';
 
-const EventDetails = ( { navigation } ) => {
+const EventDetails = ( { route, navigation } ) => {
     // This is how we will control if a user can edit/delete a post. 
-    //Conditional render based on if they are the owner
     const [owner, setOwner] = useState(false);
     const [details, setDetails] = useState([]);
-    const { eventID } = route.params;
-    console.log("EVENTID", eventID);
+    const { eventID, time } = route.params;
     const apiName = 'EventAPI';
-    const path = '/events/event'
+    const myInit = {
+        headers: {},
+        queryStringParameters: {}
+    }
+    myInit.queryStringParameters = {eventID: eventID, time: time};
+
     const editPost = () => {
 
     }
     const deletePost = () => {
-
+        API.del(apiName, '/events', myInit)
+        .then(response => {
+            console.log(response);
+            console.log("successful deletion");
+            navigation.navigate('EventHome');
+        })
+        .catch(error => {
+            console.log(error.response);
+        });
+        
     }
     const getEventDetails = async () => {
-        getInit.queryStringParameters = {eventID: eventID};
-        console.log("in getEventDetails function");
-        API.get(apiName, path, getInit)
+        API.get(apiName, '/events/event', myInit)
         .then(data => {
             console.log("DATA", data);
-            console.log("data items", data.Items);
+            setDetails(data);
+
         })
         .catch(err => {
-            console.log("Error on get event details", e);
+            console.log("Error on get event details", err);
         })
     }
-
-   
-
-    return owner ? (
+    // pulls event from DB once on first render of screen
+    useEffect(() => {
+        getEventDetails();
+    }, []); 
+    //Conditional render based on if they are the owner
+    return (details.ownerID == global.userID) ? (
         <View style={styles.container}>
             <Text> Owner </Text>
-            
             <Pressable 
                 style={styles.EditBtn}
                 onPress={editPost}
@@ -60,7 +73,13 @@ const EventDetails = ( { navigation } ) => {
 
     ) : (
         <View style={styles.container}>
-            <Text> Not Owner </Text>
+            <Card>
+                <Text>Title: {details.title}</Text>
+                <Text>Location: {details.location}</Text>
+                <Text>Date: {details.date}</Text>
+                <Text>Time: {details.time}</Text>
+            </Card>
+            <Text>NOT OWNER</Text>
         </View>
     )
 }

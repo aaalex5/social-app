@@ -1,1 +1,1 @@
-global.userId = "";
+global.userID = "";
