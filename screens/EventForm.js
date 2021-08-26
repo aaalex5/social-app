@@ -11,6 +11,36 @@ import {
 } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import Amplify, { API } from "aws-amplify";
+import uuid from 'react-native-uuid';
+
+const addEvent = (event) => {
+    const apiName = 'EventAPI';
+    const path = '/events';
+    const eventID = uuid.v1();
+    const putInit = {
+        body: {}
+    }
+    putInit.body = { 
+        id: eventID, 
+        time: event.time, 
+        date: event.date, 
+        location: event.location, 
+        title: event.title, 
+        description: event.description,
+        ownerID: global.userID,
+    }
+    API.put(apiName, path, putInit)
+    .then(response => {
+        //gotta figure out what to do here lol
+        console.log(response);
+    })
+    .catch(error => {
+        console.log(error.response);
+    })
+
+    
+}
 
 const eventSchema = yup.object({
     title: yup.string()
@@ -19,7 +49,7 @@ const eventSchema = yup.object({
 
 })
 
-export default function EventForm({ addEvent }) {
+export default function EventForm({ navigation }) {
 
 
     return (
@@ -41,6 +71,7 @@ export default function EventForm({ addEvent }) {
                             // Sent the event information back out to the home page
                             console.log(values);
                             addEvent(values);
+                            navigation.navigate('EventHome');
                             //Reset the form after submitting
                             actions.resetForm();
                         }}

@@ -22,7 +22,7 @@ const Confirmation = ({route, navigation}) => {
     async function confirmSignUp() {
         try {
           await Auth.confirmSignUp(username, authCode);
-          navigation.navigate('EventHome');
+          navigation.navigate('LoginScreen');
         } catch (error) {
             setErrorMessage(error.message);
             console.log('error confirming sign up', error);

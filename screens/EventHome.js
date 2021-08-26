@@ -12,12 +12,10 @@ import {
     Modal,
     ActivityIndicator
 } from 'react-native';
-import uuid from 'react-native-uuid';
 import Amplify, { API } from "aws-amplify";
 import EventForm from './EventForm.js';
 import Card from './Card.js';
 import { concat, withRepeat } from "react-native-reanimated";
-import e from "cors";
 import '../global.js';
 import { Auth } from 'aws-amplify';
 
@@ -38,9 +36,6 @@ const EventHome = ({ navigation }) => {
         headers: {},
         queryStringParameters: {}
     }
-    const putInit = {
-        body: {}
-    }
     // takes currentuserID from amplify/cognito
     async function userGrab() {
         Auth.currentUserInfo()
@@ -49,20 +44,8 @@ const EventHome = ({ navigation }) => {
             console.log("GLOBAL ID", global.userID);
         })
         .catch(err => {
-            console.log("Error on Amplify User", e);
+            console.log("Error on Amplify User", err);
         })
-    }
-    userGrab();
-    async function signOutFunction() {
-        try {
-            console.log("SIGNING OUT");
-            await Auth.signOut();
-            navigation.navigate('LoginScreen');
-            
-            global.userID = "";
-        } catch (error) {
-            console.log('error signing out: ', error);
-        }
     }
 
     const getEvent = async () => {
@@ -76,7 +59,7 @@ const EventHome = ({ navigation }) => {
             setLoading(false);
         })
         .catch(err => {
-            console.log("Error on get", e);
+            console.log("Error on get", err);
         })
     }
     
@@ -87,31 +70,10 @@ const EventHome = ({ navigation }) => {
     useEffect(() => {
         console.log("in use effect");
         getEvent();
+        userGrab();
     }, [refreshCount]);    
 
-    const addEvent = (event) => {
-        const eventID = uuid.v1();
-        putInit.body = { 
-            id: eventID, 
-            time: event.time, 
-            date: event.date, 
-            location: event.location, 
-            title: event.title, 
-            description: event.description,
-            ownerID: global.userID,
-        }
-        API.put(apiName, path, putInit)
-        .then(response => {
-            //gotta figure out what to do here lol
-            console.log(response)
-        })
-        .catch(error => {
-            console.log(error.response);
-        })
-        console.log(event.date);
-
-        setModalOpen(false);
-    }
+    
     // For Slide to refresh
     const [refreshing, setRefreshing] = React.useState(false);
 
@@ -158,43 +120,6 @@ const EventHome = ({ navigation }) => {
                     </TouchableOpacity>
                 )}
             />
-
-            <Modal visible={modalOpen} animationType='slide'>
-                <View style ={styles.modalContent}>
-                    <MaterialIcons 
-                    name='close'
-                    size={24}
-                    style={{ ...styles.modalToggle, ...styles.modalClose }}
-                    onPress={() => setModalOpen(false)}
-                    />
-                <EventForm addEvent={addEvent}/>
-                </View>
-            </Modal>
-            {/* TEMP */}
-            <View>
-                <Pressable
-                    onPress={() => navigation.navigate('Profile')}
-                >
-                    <Text>PROFILE</Text>
-                </Pressable>
-            </View>
-    
-
-            <MaterialIcons 
-                name='add'
-                size={24}
-                style={styles.modalToggle}
-                onPress={() => setModalOpen(true)}
-            />
-            <View>
-                <Pressable
-                    onPress={() => signOutFunction()}
-                >
-                    <Text>Sign Out</Text>
-                </Pressable>
-
-            </View>
-
         </View>
         
     );

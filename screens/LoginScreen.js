@@ -45,7 +45,7 @@ const LoginScreen = ( {navigation} ) => {
     async function signIn() {
         try {
             const user = await Auth.signIn(username, password);
-            navigation.navigate('EventHome');
+            navigation.navigate('Home', {screen: 'EventHome'});
         } catch (error) {
             console.log('error signing in', error);
             setErrorMessage(error.message);

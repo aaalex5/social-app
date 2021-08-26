@@ -133,9 +133,33 @@ app.put('/events', function(req, res) {
   });
 });
 
-app.put('/events/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
+// UPDATE METHOD
+app.put('/events/event', function(req, res) {
+  let eventID = req.query.eventID;
+  let time = req.query.time;
+  let params = {
+    TableName: tableName,
+    Key:{
+        "id": eventID,
+        "time": time
+    },
+    UpdateExpression: "set info.rating = :r, info.plot=:p, info.actors=:a",
+    ExpressionAttributeValues:{
+        ":r":5.5,
+        ":p":"Everything happens all at once.",
+        ":a":["Larry", "Moe", "Curly"]
+    },
+    ReturnValues:"UPDATED_NEW"
+};
+
+  dynamodb.update(params, (err, data) => {
+    if(err) {
+      res.statusCode = 500;
+      res.json({error: err, url: req.url, body: req.body});
+    } else{
+      res.json({success: 'put call succeed!', url: req.url, data: data})
+    }
+  });
 });
 
 /****************************

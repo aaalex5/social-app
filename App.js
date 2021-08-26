@@ -24,6 +24,6 @@ API.configure(awsconfig);
 
 export default function App() {
   return (
-    <LoginNavigation />
+    <TabNavigation />
   );
 }

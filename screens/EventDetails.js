@@ -54,7 +54,12 @@ const EventDetails = ( { route, navigation } ) => {
     //Conditional render based on if they are the owner
     return (details.ownerID == global.userID) ? (
         <View style={styles.container}>
+            <Text>Title: {details.title}</Text>
+            <Text>Location: {details.location}</Text>
+            <Text>Date: {details.date}</Text>
+            <Text>Time: {details.time}</Text>
             <Text> Owner </Text>
+            
             <Pressable 
                 style={styles.EditBtn}
                 onPress={editPost}
@@ -73,12 +78,10 @@ const EventDetails = ( { route, navigation } ) => {
 
     ) : (
         <View style={styles.container}>
-            <Card>
-                <Text>Title: {details.title}</Text>
-                <Text>Location: {details.location}</Text>
-                <Text>Date: {details.date}</Text>
-                <Text>Time: {details.time}</Text>
-            </Card>
+            <Text>Title: {details.title}</Text>
+            <Text>Location: {details.location}</Text>
+            <Text>Date: {details.date}</Text>
+            <Text>Time: {details.time}</Text>
             <Text>NOT OWNER</Text>
         </View>
     )

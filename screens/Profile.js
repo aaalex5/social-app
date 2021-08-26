@@ -10,16 +10,25 @@ import {
     Keyboard
 } from 'react-native';
 import { API, Auth } from 'aws-amplify';
-import { set } from "react-native-reanimated";
 import '../global.js'
-import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
-const Profile = () => {
+const Profile = ( { navigation }) => {
     const [ profileInfo, setProfileInfo ] = useState([]);
     const apiName = 'EventAPI';
     const myInit = {
         headers: {},
         queryStringParameters: {}
+    }
+    async function signOutFunction() {
+        try {
+            console.log("SIGNING OUT");
+            await Auth.signOut();
+            navigation.navigate('LoginScreen');
+            
+            global.userID = "";
+        } catch (error) {
+            console.log('error signing out: ', error);
+        }
     }
     const getProfile = async () => {
         myInit.queryStringParameters = { userID: global.userID }
@@ -38,9 +47,23 @@ const Profile = () => {
 
 
     return (
-        <View>
+        <View style={styles.container}>
             <Text>PROFILE</Text>
+            <Text>{profileInfo.username}</Text>
+            <Pressable onPress={signOutFunction}>
+                <Text>Sign Out</Text>
+
+            </Pressable>
         </View>
     )
 };
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#003f5c',
+        alignItems: 'center',
+        justifyContent: 'center',
+        
+    },
+})
 export default Profile;
