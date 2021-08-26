@@ -1,50 +1,46 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
+import { StatusBar } from 'expo-status-bar';
 import {
-    StyleSheet,
-    View,
-    Text,
     Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableWithoutFeedback,
+    View,
+    Keyboard
 } from 'react-native';
-import { use } from "../amplify/backend/function/EventFunction/src/app.js";
-import '../global.js';
+import { API, Auth } from 'aws-amplify';
+import { set } from "react-native-reanimated";
+import '../global.js'
+import { get } from "react-native/Libraries/Utilities/PixelRatio";
 
-const Profile = ( { navigation } ) => {
-    const [profileInfo, setProfileInfo ] = useState([]);
+const Profile = () => {
+    const [ profileInfo, setProfileInfo ] = useState([]);
     const apiName = 'EventAPI';
     const myInit = {
         headers: {},
         queryStringParameters: {}
     }
     const getProfile = async () => {
-        myInit.queryStringParameters = {userID: global.userID};
-        API.get(apiName, '/profile', myInit)
+        myInit.queryStringParameters = { userID: global.userID }
+        API.get(apiName, '/events/profile', myInit)
         .then(data => {
             console.log("DATA", data);
             setProfileInfo(data);
         })
         .catch(err => {
-            console.log("Error on get event details", err);
+            console.log("error on get profile", err);
         })
     }
-    useEffect(() => {
+    useEffect( () => {
         getProfile();
-    }, []);
+    }, [])
+
+
     return (
-        <View style={styles.container}>
-            <Text> {profileInfo.username} </Text>
+        <View>
+            <Text>PROFILE</Text>
         </View>
     )
-}
-
-const styles = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        backgroundColor: '#003f5c',
-        alignItems: 'center',
-        justifyContent: 'center',
-
-    },
-})
-
+};
 export default Profile;

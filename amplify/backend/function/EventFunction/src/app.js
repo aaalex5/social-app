@@ -171,27 +171,29 @@ app.delete('/events/*', function(req, res) {
 /*************************************************************************************
  *                                      PROFILE API
  ************************************************************************************/
-// app.get('/profile', function(req, res) {
-//   const userID = req.query.userID;
-//   let params = {
-//     TableName: "UserTable",
-//     Key: {"cognitoUserID": userID},
-//   }
-//   dynamodb.get(params,(err, data) => {
-//     if(err) {
-//       res.statusCode = 500;
-//       res.json({error: 'Could not load items: ' + err.message});
-//     } else {
-//       if (data.Item) {
-//         console.log("items", data.Item)
-//         res.json(data.Item);
-//       } else {
-//         console.log("nitems", data);
-//         res.json(data) ;
-//       }
-//     }
-//   });
-// });
+app.get('/events/profile', function(req, res) {
+  console.log("IN PROFILE GET");
+  const userID = req.query.userID;
+  console.log("USERID", userID);
+  let params = {
+    TableName: "UserTable",
+    Key: {"cognitoUserID": userID},
+  }
+  dynamodb.get(params,(err, data) => {
+    if(err) {
+      res.statusCode = 500;
+      res.json({error: 'Could not load items: ' + err.message});
+    } else {
+      if (data.Item) {
+        console.log("items", data.Item)
+        res.json(data.Item);
+      } else {
+        console.log("nitems", data);
+        res.json(data) ;
+      }
+    }
+  });
+});
  
 app.listen(3000, function() {
     console.log("App started")

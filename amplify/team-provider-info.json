@@ -15,7 +15,7 @@
       "function": {
         "EventFunction": {
           "deploymentBucketName": "amplify-socialapp-dev-160559-deployment",
-          "s3Key": "amplify-builds/EventFunction-6e6a495a774f72635162-build.zip"
+          "s3Key": "amplify-builds/EventFunction-344b4e7070466161684f-build.zip"
         },
         "CogntioToDB": {
           "deploymentBucketName": "amplify-socialapp-dev-160559-deployment",

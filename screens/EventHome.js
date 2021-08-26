@@ -175,7 +175,7 @@ const EventHome = ({ navigation }) => {
                 <Pressable
                     onPress={() => navigation.navigate('Profile')}
                 >
-                    <Text>PROFLE</Text>
+                    <Text>PROFILE</Text>
                 </Pressable>
             </View>
     
