@@ -1,15 +1,13 @@
 {
   "permissions": {
-    "auth": {
-      "socialapp57ee0967": [
+    "storage": {
+      "EventTable": [
         "create",
         "read",
         "update",
         "delete"
-      ]
-    },
-    "storage": {
-      "eventTable": [
+      ],
+      "UserTable": [
         "create",
         "read",
         "update",

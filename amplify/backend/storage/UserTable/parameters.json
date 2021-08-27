@@ -1,4 +1,5 @@
 {
-  "resourceName": "UserTable",
-  "serviceType": "imported"
+    "tableName": "UserTable",
+    "partitionKeyName": "cognitoUserID",
+    "partitionKeyType": "S"
 }

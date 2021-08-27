@@ -14,12 +14,12 @@ const EventDetails = ( { route, navigation } ) => {
     const [owner, setOwner] = useState(false);
     const [details, setDetails] = useState([]);
     const { eventID, time } = route.params;
-    const apiName = 'EventAPI';
+    const apiName = 'EventRESTAPI';
     const myInit = {
         headers: {},
         queryStringParameters: {}
     }
-    myInit.queryStringParameters = {eventID: eventID, time: time};
+    myInit.queryStringParameters = {eventID: eventID};
 
     const editPost = () => {
 

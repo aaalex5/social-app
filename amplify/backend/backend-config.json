@@ -9,13 +9,13 @@
     }
   },
   "api": {
-    "EventAPI": {
+    "EventRESTAPI": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "EventFunction",
+          "resourceName": "EventAPIFunction",
           "attributes": [
             "Name",
             "Arn"
@@ -25,14 +25,23 @@
     }
   },
   "function": {
-    "EventFunction": {
+    "EventAPIFunction": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
         {
           "category": "storage",
-          "resourceName": "eventTable",
+          "resourceName": "EventTable",
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "UserTable",
           "attributes": [
             "Name",
             "Arn",
@@ -41,7 +50,7 @@
         }
       ]
     },
-    "CogntioToDB": {
+    "CognitoToUserTable": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
@@ -55,7 +64,7 @@
         },
         {
           "category": "storage",
-          "resourceName": "eventTable",
+          "resourceName": "UserTable",
           "attributes": [
             "Name",
             "Arn",
@@ -66,15 +75,13 @@
     }
   },
   "storage": {
-    "eventTable": {
+    "EventTable": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
     },
     "UserTable": {
       "service": "DynamoDB",
-      "serviceType": "imported",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": []
+      "providerPlugin": "awscloudformation"
     }
   }
 }

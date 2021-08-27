@@ -1,7 +1,5 @@
 {
-    "tableName": "eventTable",
+    "tableName": "EventTable",
     "partitionKeyName": "id",
-    "partitionKeyType": "S",
-    "sortKeyName": "time",
-    "sortKeyType": "S"
+    "partitionKeyType": "S"
 }

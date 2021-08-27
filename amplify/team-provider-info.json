@@ -12,16 +12,6 @@
       "AmplifyAppId": "d2djga5ow8wprb"
     },
     "categories": {
-      "function": {
-        "EventFunction": {
-          "deploymentBucketName": "amplify-socialapp-dev-160559-deployment",
-          "s3Key": "amplify-builds/EventFunction-344b4e7070466161684f-build.zip"
-        },
-        "CogntioToDB": {
-          "deploymentBucketName": "amplify-socialapp-dev-160559-deployment",
-          "s3Key": "amplify-builds/CogntioToDB-4e563065613336316153-build.zip"
-        }
-      },
       "auth": {
         "socialapp57ee0967": {
           "userPoolId": "us-east-2_LKd1FRZ9d",
@@ -37,13 +27,14 @@
           "unauthRoleName": "Cognito_SocialAppEmailIDPoolUnauth_Role"
         }
       },
-      "storage": {
-        "UserTable": {
-          "tableName": "UserTable",
-          "region": "us-east-2",
-          "arn": "arn:aws:dynamodb:us-east-2:747736213360:table/UserTable",
-          "partitionKeyName": "cognitoUserID",
-          "partitionKeyType": "S"
+      "function": {
+        "EventAPIFunction": {
+          "deploymentBucketName": "amplify-socialapp-dev-160559-deployment",
+          "s3Key": "amplify-builds/EventAPIFunction-686b557568315a4a5138-build.zip"
+        },
+        "CognitoToUserTable": {
+          "deploymentBucketName": "amplify-socialapp-dev-160559-deployment",
+          "s3Key": "amplify-builds/CognitoToUserTable-78434149433155747435-build.zip"
         }
       }
     }

@@ -26,7 +26,7 @@ const EventHome = ({ navigation }) => {
     const [loading, setLoading] = useState(true);
     const [events, setEvents] = useState([]);
     const [refreshCount, setRefreshCount] = useState(0);
-    const apiName = 'EventAPI';
+    const apiName = 'EventRESTAPI';
     const path = '/events';
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));

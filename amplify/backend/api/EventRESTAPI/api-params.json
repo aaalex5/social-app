@@ -2,18 +2,18 @@
   "paths": [
     {
       "name": "/events",
-      "lambdaFunction": "EventFunction",
+      "lambdaFunction": "EventAPIFunction",
       "privacy": {
         "open": true
       },
       "policyResourceName": "/events"
     }
   ],
-  "resourceName": "EventAPI",
-  "apiName": "EventAPI",
+  "resourceName": "EventRESTAPI",
+  "apiName": "EventRESTAPI",
   "functionArns": [
     {
-      "lambdaFunction": "EventFunction"
+      "lambdaFunction": "EventAPIFunction"
     }
   ],
   "privacy": {
@@ -25,7 +25,7 @@
   "dependsOn": [
     {
       "category": "function",
-      "resourceName": "EventFunction",
+      "resourceName": "EventAPIFunction",
       "attributes": [
         "Name",
         "Arn"

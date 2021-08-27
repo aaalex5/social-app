@@ -8,15 +8,15 @@
         },
     
     
-          "functionEventFunctionName": {
+          "functionEventAPIFunctionName": {
             "Type": "String",
-            "Default": "functionEventFunctionName"
+            "Default": "functionEventAPIFunctionName"
           },
 
           
-          "functionEventFunctionArn": {
+          "functionEventAPIFunctionArn": {
             "Type": "String",
-            "Default": "functionEventFunctionArn"
+            "Default": "functionEventAPIFunctionArn"
           }
 
           
@@ -37,16 +37,16 @@
         
         
         
-      "EventAPI": {
+      "EventRESTAPI": {
         "Type": "AWS::ApiGateway::RestApi",
         "Properties": {
           "Description": "",
-          "Name": "EventAPI",
+          "Name": "EventRESTAPI",
           "Body": {
             "swagger": "2.0",
             "info": {
               "version": "2018-05-24T17:52:00Z",
-              "title": "EventAPI"
+              "title": "EventRESTAPI"
             },
             "host": {
                 "Fn::Join": [
@@ -168,7 +168,7 @@
                             
                             {
 
-                                "Ref": "functionEventFunctionArn"
+                                "Ref": "functionEventAPIFunctionArn"
                             },
                             
                             "/invocations"
@@ -267,7 +267,7 @@
                           
                           {
 
-                            "Ref": "functionEventFunctionArn"
+                            "Ref": "functionEventAPIFunctionArn"
                           },
                           
                           "/invocations"
@@ -324,12 +324,12 @@
       
         
 
-        "functionEventFunctionPermissionEventAPI": {
+        "functionEventAPIFunctionPermissionEventRESTAPI": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "FunctionName": 
                     {
-                        "Ref":  "functionEventFunctionName"
+                        "Ref":  "functionEventAPIFunctionName"
                     },
                     
                     "Action": "lambda:InvokeFunction",
@@ -348,7 +348,7 @@
                             },
                             ":",
                             {
-                                "Ref": "EventAPI"
+                                "Ref": "EventRESTAPI"
                             },
                             "/*/*/*"
                         ]
@@ -359,7 +359,7 @@
         
         
 
-      "DeploymentAPIGWEventAPI": {
+      "DeploymentAPIGWEventRESTAPI": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",
@@ -373,7 +373,7 @@
             ]
           },
           "RestApiId": {
-            "Ref": "EventAPI"
+            "Ref": "EventRESTAPI"
           }
         }
       }
@@ -381,15 +381,15 @@
     "Outputs": {
         "RootUrl": {
             "Description": "Root URL of the API gateway",
-            "Value": {"Fn::Join": ["", ["https://", {"Ref": "EventAPI"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
+            "Value": {"Fn::Join": ["", ["https://", {"Ref": "EventRESTAPI"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
         },
         "ApiName": {
           "Description": "API Friendly name",
-          "Value": "EventAPI"
+          "Value": "EventRESTAPI"
         },
         "ApiId": {
           "Description": "API ID (prefix of API URL)",
-          "Value": {"Ref": "EventAPI"}
+          "Value": {"Ref": "EventRESTAPI"}
         }
     }
   }

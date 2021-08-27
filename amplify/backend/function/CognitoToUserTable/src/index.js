@@ -2,9 +2,9 @@
 	AUTH_SOCIALAPP57EE0967_USERPOOLID
 	ENV
 	REGION
-	STORAGE_EVENTTABLE_ARN
-	STORAGE_EVENTTABLE_NAME
-	STORAGE_EVENTTABLE_STREAMARN
+	STORAGE_USERTABLE_ARN
+	STORAGE_USERTABLE_NAME
+	STORAGE_USERTABLE_STREAMARN
 Amplify Params - DO NOT EDIT */
 
 var aws = require('aws-sdk')
@@ -20,9 +20,8 @@ exports.handler = async (event, context) => {
                 'username': {S: event.userName},
                 'email': {S: event.request.userAttributes.email},
                 'createdAt': {S: date.toISOString()},
-                'updatedAt': {S: date.toISOString()},
             },
-            TableName: "UserTable"
+            TableName: "UserTable-dev"
         }
 
         try {

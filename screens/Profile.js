@@ -14,7 +14,7 @@ import '../global.js'
 
 const Profile = ( { navigation }) => {
     const [ profileInfo, setProfileInfo ] = useState([]);
-    const apiName = 'EventAPI';
+    const apiName = 'EventRESTAPI';
     const myInit = {
         headers: {},
         queryStringParameters: {}

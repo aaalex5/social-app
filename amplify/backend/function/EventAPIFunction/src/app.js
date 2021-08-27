@@ -13,6 +13,9 @@ See the License for the specific language governing permissions and limitations 
 	STORAGE_EVENTTABLE_ARN
 	STORAGE_EVENTTABLE_NAME
 	STORAGE_EVENTTABLE_STREAMARN
+	STORAGE_USERTABLE_ARN
+	STORAGE_USERTABLE_NAME
+	STORAGE_USERTABLE_STREAMARN
 Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk')
@@ -23,7 +26,7 @@ AWS.config.update({ region: process.env.TABLE_REGION });
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-let tableName = "eventTable";
+let tableName = "EventTable";
 if(process.env.ENV && process.env.ENV !== "NONE") {
   tableName = tableName + '-' + process.env.ENV;
 }
@@ -78,10 +81,9 @@ app.get('/events', function(req, res) {
 
 app.get('/events/event', function(req, res) {
   let eventID = req.query.eventID;
-  let time = req.query.time;
   var params = { 
     TableName: tableName,
-    Key: { "id": eventID, "time": time }
+    Key: { "id": eventID}
   }
   dynamodb.get(params,(err, data) => {
     if(err) {
@@ -136,12 +138,10 @@ app.put('/events', function(req, res) {
 // UPDATE METHOD
 app.put('/events/event', function(req, res) {
   let eventID = req.query.eventID;
-  let time = req.query.time;
   let params = {
     TableName: tableName,
     Key:{
         "id": eventID,
-        "time": time
     },
     UpdateExpression: "set info.rating = :r, info.plot=:p, info.actors=:a",
     ExpressionAttributeValues:{
@@ -168,10 +168,9 @@ app.put('/events/event', function(req, res) {
 
 app.delete('/events', function(req, res) {
   let eventID = req.query.eventID;
-  let time = req.query.time;
   var params = {
     TableName: tableName,
-    Key: {"id": eventID, "time": time },
+    Key: {"id": eventID },
   }
   dynamodb.delete(params, (err, data)=> {
     if(err) {
@@ -200,7 +199,7 @@ app.get('/events/profile', function(req, res) {
   const userID = req.query.userID;
   console.log("USERID", userID);
   let params = {
-    TableName: "UserTable",
+    TableName: "UserTable-dev",
     Key: {"cognitoUserID": userID},
   }
   dynamodb.get(params,(err, data) => {

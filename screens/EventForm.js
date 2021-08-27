@@ -15,7 +15,7 @@ import Amplify, { API } from "aws-amplify";
 import uuid from 'react-native-uuid';
 
 const addEvent = (event) => {
-    const apiName = 'EventAPI';
+    const apiName = 'EventRESTAPI';
     const path = '/events';
     const eventID = uuid.v1();
     const putInit = {
