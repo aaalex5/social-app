@@ -1,0 +1,7 @@
+{
+    "tableName": "RSVPTable",
+    "partitionKeyName": "userID",
+    "partitionKeyType": "S",
+    "sortKeyName": "eventID",
+    "sortKeyType": "S"
+}

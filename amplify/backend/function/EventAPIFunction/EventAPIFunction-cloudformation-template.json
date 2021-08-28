@@ -39,6 +39,18 @@
     "storageUserTableStreamArn": {
       "Type": "String",
       "Default": "storageUserTableStreamArn"
+    },
+    "storageRSVPTableName": {
+      "Type": "String",
+      "Default": "storageRSVPTableName"
+    },
+    "storageRSVPTableArn": {
+      "Type": "String",
+      "Default": "storageRSVPTableArn"
+    },
+    "storageRSVPTableStreamArn": {
+      "Type": "String",
+      "Default": "storageRSVPTableStreamArn"
     }
   },
   "Conditions": {
@@ -111,6 +123,15 @@
             },
             "STORAGE_USERTABLE_STREAMARN": {
               "Ref": "storageUserTableStreamArn"
+            },
+            "STORAGE_RSVPTABLE_NAME": {
+              "Ref": "storageRSVPTableName"
+            },
+            "STORAGE_RSVPTABLE_ARN": {
+              "Ref": "storageRSVPTableArn"
+            },
+            "STORAGE_RSVPTABLE_STREAMARN": {
+              "Ref": "storageRSVPTableStreamArn"
             }
           }
         },
@@ -281,6 +302,39 @@
                     [
                       {
                         "Ref": "storageUserTableArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:Delete*"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageRSVPTableArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageRSVPTableArn"
                       },
                       "index/*"
                     ]

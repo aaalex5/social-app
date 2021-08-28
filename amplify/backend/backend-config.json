@@ -47,6 +47,15 @@
             "Arn",
             "StreamArn"
           ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "RSVPTable",
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ]
         }
       ]
     },
@@ -80,6 +89,10 @@
       "providerPlugin": "awscloudformation"
     },
     "UserTable": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "RSVPTable": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
     }

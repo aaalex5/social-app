@@ -9,6 +9,8 @@ import LoginScreen from '../screens/LoginScreen.js';
 import Confirmation from '../screens/Confirmation.js';
 import EventDetails from '../screens/EventDetails.js';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+//import Ionicons from 'react-native-vector-icons/Ionicons';
+
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 

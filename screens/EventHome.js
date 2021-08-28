@@ -15,6 +15,7 @@ import {
 import Amplify, { API } from "aws-amplify";
 import EventForm from './EventForm.js';
 import Card from './Card.js';
+import RSVPButton from '../components/RSVPButton.js'
 import { concat, withRepeat } from "react-native-reanimated";
 import '../global.js';
 import { Auth } from 'aws-amplify';
@@ -50,7 +51,6 @@ const EventHome = ({ navigation }) => {
 
     const getEvent = async () => {
         getInit.queryStringParameters = {number: 10};
-        console.log("in getEvent function");
         API.get(apiName, path, getInit)
         .then(data => {
             console.log("DATA", data);
@@ -68,20 +68,26 @@ const EventHome = ({ navigation }) => {
     the api to pull events from the DB
     */
     useEffect(() => {
-        console.log("in use effect");
         getEvent();
         userGrab();
-    }, [refreshCount]);    
+    }, [refreshCount]);
+    const setRSVP = (ownerID, eventID) => {
+        if (global.userID == ownerID) {
+            return (
+                <Text>Your Event</Text>
+            );
+        }
+        return (
+            <RSVPButton eventID={eventID} userID={global.userID}/>
+        );
+    }
 
     
     // For Slide to refresh
     const [refreshing, setRefreshing] = React.useState(false);
 
     const onRefresh = React.useCallback(() => {
-        console.log("IN REFRESH FUNC");
-        console.log("PRE COUNT", refreshCount);
         setRefreshCount(refreshCount => refreshCount + 1);
-        console.log("POST COUNT", refreshCount);
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
     }, [refreshCount]);
@@ -116,10 +122,13 @@ const EventHome = ({ navigation }) => {
                             <Text>Location: {item.location}</Text>
                             <Text>Date: {item.date}</Text>
                             <Text>Time: {item.time}</Text>
+                            {setRSVP(item.ownerID, item.id)}
                         </Card>
                     </TouchableOpacity>
                 )}
             />
+            <View>
+            </View>
         </View>
         
     );

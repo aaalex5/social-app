@@ -12,6 +12,12 @@
         "read",
         "update",
         "delete"
+      ],
+      "RSVPTable": [
+        "create",
+        "read",
+        "update",
+        "delete"
       ]
     }
   },

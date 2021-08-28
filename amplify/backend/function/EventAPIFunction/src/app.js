@@ -13,6 +13,9 @@ See the License for the specific language governing permissions and limitations 
 	STORAGE_EVENTTABLE_ARN
 	STORAGE_EVENTTABLE_NAME
 	STORAGE_EVENTTABLE_STREAMARN
+	STORAGE_RSVPTABLE_ARN
+	STORAGE_RSVPTABLE_NAME
+	STORAGE_RSVPTABLE_STREAMARN
 	STORAGE_USERTABLE_ARN
 	STORAGE_USERTABLE_NAME
 	STORAGE_USERTABLE_STREAMARN
@@ -135,7 +138,7 @@ app.put('/events', function(req, res) {
   });
 });
 
-// UPDATE METHOD
+// UPDATE METHOD (not done)
 app.put('/events/event', function(req, res) {
   let eventID = req.query.eventID;
   let params = {
@@ -214,6 +217,23 @@ app.get('/events/profile', function(req, res) {
         console.log("nitems", data);
         res.json(data) ;
       }
+    }
+  });
+});
+/*************************************************************************************
+ *                                      RSVP API
+ ************************************************************************************/
+app.put('/events/RSVP', function(req, res) {
+  let putItemParams = {
+    TableName: "RSVPTable-dev",
+    Item: req.body
+  }
+  dynamodb.put(putItemParams, (err, data) => {
+    if(err) {
+      res.statusCode = 500;
+      res.json({error: err, url: req.url, body: req.body});
+    } else{
+      res.json({success: 'put call succeed!', url: req.url, data: data})
     }
   });
 });
