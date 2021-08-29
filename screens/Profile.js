@@ -48,10 +48,9 @@ const Profile = ( { navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text>PROFILE</Text>
-            <Text>{profileInfo.username}</Text>
-            <Pressable onPress={signOutFunction}>
-                <Text>Sign Out</Text>
+            <Text style={styles.nameTop}>{profileInfo.username}</Text>
+            <Pressable onPress={signOutFunction} style={styles.SignoutBtn}>
+                <Text style={{color: '#fff', fontWeight: "bold"}}>Sign Out</Text>
 
             </Pressable>
         </View>
@@ -61,9 +60,25 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#003f5c',
-        alignItems: 'center',
-        justifyContent: 'center',
-        
+
+    },
+    nameTop: {
+        marginLeft: 20,
+        fontWeight: "bold",
+        fontSize: 40,
+        color: "white",
+        marginBottom: 40
+    },
+    SignoutBtn: {
+        backgroundColor: "#fb5b5a",
+        borderRadius: 25,
+        width: 100,
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 30,
+        marginBottom: 10,
+        marginLeft: 155
     },
 })
 export default Profile;

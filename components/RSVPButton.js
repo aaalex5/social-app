@@ -37,7 +37,10 @@ const RSVPButton = (props) => {
 
     return(
         <View>
-            <Pressable onPress={addRSVP}>
+            <Pressable 
+                onPress={addRSVP}
+                style={styles.RSVPBtn}
+            >
                 <Text>RSVP</Text>
             </Pressable>
         </View>
@@ -46,4 +49,15 @@ const RSVPButton = (props) => {
 
 };
 
+const styles = StyleSheet.create({
+    RSVPBtn: {
+        backgroundColor: "#ddd",
+        borderRadius: 25,
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 30,
+        marginBottom: 10
+    },
+})
 export default RSVPButton;
