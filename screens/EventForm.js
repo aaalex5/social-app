@@ -47,6 +47,19 @@ const eventSchema = yup.object({
         .required()
         .min(4),
 
+    description: yup.string()
+        .required(),
+        
+    date: yup.string()
+        .required(),
+
+    time: yup.string()
+        .required(),
+
+    location: yup.string()
+        .required(),
+
+
 })
 
 export default function EventForm({ navigation }) {
